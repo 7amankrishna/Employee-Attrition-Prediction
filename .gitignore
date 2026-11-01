@@ -5,3 +5,8 @@ dist/
 .env.*.local
 .openai/
 .DS_Store
+# Python
+.venv/
+__pycache__/
+*.pyc
+backend/artifacts/

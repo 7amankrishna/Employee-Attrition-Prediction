@@ -1,0 +1,744 @@
+{
+  "ibm": {
+    "dataset": "ibm",
+    "n": 1470,
+    "n_test": 294,
+    "base_rate_test": 0.1598639455782313,
+    "features": [
+      "Age",
+      "BusinessTravel",
+      "DailyRate",
+      "Department",
+      "DistanceFromHome",
+      "Education",
+      "EducationField",
+      "EnvironmentSatisfaction",
+      "Gender",
+      "HourlyRate",
+      "JobInvolvement",
+      "JobLevel",
+      "JobRole",
+      "JobSatisfaction",
+      "MaritalStatus",
+      "MonthlyIncome",
+      "MonthlyRate",
+      "NumCompaniesWorked",
+      "OverTime",
+      "PercentSalaryHike",
+      "PerformanceRating",
+      "RelationshipSatisfaction",
+      "StockOptionLevel",
+      "TotalWorkingYears",
+      "TrainingTimesLastYear",
+      "WorkLifeBalance",
+      "YearsAtCompany",
+      "YearsInCurrentRole",
+      "YearsSinceLastPromotion",
+      "YearsWithCurrManager"
+    ],
+    "cv": {
+      "logreg": {
+        "roc_auc": {
+          "mean": 0.818968741651082,
+          "std": 0.02470382750187278
+        },
+        "average_precision": {
+          "mean": 0.59541554180618,
+          "std": 0.053143492799714906
+        },
+        "f1": {
+          "mean": 0.49322071790102484,
+          "std": 0.026622496329133726
+        },
+        "recall": {
+          "mean": 0.7105263157894738,
+          "std": 0.060009232899954634
+        },
+        "precision": {
+          "mean": 0.37854367854367854,
+          "std": 0.020468234238401155
+        }
+      },
+      "rf": {
+        "roc_auc": {
+          "mean": 0.8027276505368945,
+          "std": 0.02222568095685412
+        },
+        "average_precision": {
+          "mean": 0.539283915543024,
+          "std": 0.04942602725482044
+        },
+        "f1": {
+          "mean": 0.5128117709273027,
+          "std": 0.06284555424666483
+        },
+        "recall": {
+          "mean": 0.44210526315789467,
+          "std": 0.045275396142329616
+        },
+        "precision": {
+          "mean": 0.6166304347826087,
+          "std": 0.10853105895661419
+        }
+      },
+      "xgb": {
+        "roc_auc": {
+          "mean": 0.7999749026465564,
+          "std": 0.030173966664542553
+        },
+        "average_precision": {
+          "mean": 0.5408611223047555,
+          "std": 0.04504612795845481
+        },
+        "f1": {
+          "mean": 0.5060568504883683,
+          "std": 0.04068927245028847
+        },
+        "recall": {
+          "mean": 0.41578947368421054,
+          "std": 0.038676153833418596
+        },
+        "precision": {
+          "mean": 0.6478695652173914,
+          "std": 0.0485125006355723
+        }
+      }
+    },
+    "best_model": "logreg",
+    "test": {
+      "roc_auc": 0.839607201309329,
+      "pr_auc": 0.5950040179350878,
+      "accuracy": 0.782312925170068,
+      "precision": 0.4,
+      "recall": 0.723404255319149,
+      "f1": 0.5151515151515151,
+      "brier": 0.1500216284221332,
+      "base_rate": 0.1598639455782313,
+      "confusion_matrix": [
+        [
+          196,
+          51
+        ],
+        [
+          13,
+          34
+        ]
+      ]
+    },
+    "permutation_importance_top15": [
+      {
+        "feature": "OverTime",
+        "importance": 0.07644930657248689,
+        "std": 0.01095613909681559
+      },
+      {
+        "feature": "YearsAtCompany",
+        "importance": 0.043479197174605896,
+        "std": 0.007845339605063895
+      },
+      {
+        "feature": "YearsSinceLastPromotion",
+        "importance": 0.0417994659316048,
+        "std": 0.007969672692335077
+      },
+      {
+        "feature": "JobRole",
+        "importance": 0.031204238091136205,
+        "std": 0.016953611406957766
+      },
+      {
+        "feature": "NumCompaniesWorked",
+        "importance": 0.02812473081230081,
+        "std": 0.007120767210101331
+      },
+      {
+        "feature": "EnvironmentSatisfaction",
+        "importance": 0.026208114394004625,
+        "std": 0.008094043958188617
+      },
+      {
+        "feature": "BusinessTravel",
+        "importance": 0.023763890085278697,
+        "std": 0.008486920819221491
+      },
+      {
+        "feature": "JobSatisfaction",
+        "importance": 0.01966146954948747,
+        "std": 0.010063813175373252
+      },
+      {
+        "feature": "DistanceFromHome",
+        "importance": 0.017260315272633317,
+        "std": 0.005954412435166433
+      },
+      {
+        "feature": "EducationField",
+        "importance": 0.01721724524076146,
+        "std": 0.00621246020011173
+      },
+      {
+        "feature": "JobInvolvement",
+        "importance": 0.015192953742785772,
+        "std": 0.007698933849275027
+      },
+      {
+        "feature": "WorkLifeBalance",
+        "importance": 0.01061676285640449,
+        "std": 0.0029941417557456883
+      },
+      {
+        "feature": "TrainingTimesLastYear",
+        "importance": 0.00994917736239126,
+        "std": 0.003190091168428132
+      },
+      {
+        "feature": "JobLevel",
+        "importance": 0.009001636661211093,
+        "std": 0.0037943206976030638
+      },
+      {
+        "feature": "YearsWithCurrManager",
+        "importance": 0.008635541390300608,
+        "std": 0.009566565745266743
+      }
+    ],
+    "shap_top15": [
+      {
+        "feature": "num__YearsAtCompany",
+        "mean_abs_shap": 0.45291763991254835
+      },
+      {
+        "feature": "num__YearsInCurrentRole",
+        "mean_abs_shap": 0.4087086608010513
+      },
+      {
+        "feature": "num__JobSatisfaction",
+        "mean_abs_shap": 0.39751598607733435
+      },
+      {
+        "feature": "num__TotalWorkingYears",
+        "mean_abs_shap": 0.38701198963987077
+      },
+      {
+        "feature": "num__YearsWithCurrManager",
+        "mean_abs_shap": 0.35665426579938586
+      },
+      {
+        "feature": "cat__OverTime_No",
+        "mean_abs_shap": 0.3429247990393015
+      },
+      {
+        "feature": "cat__MaritalStatus_Single",
+        "mean_abs_shap": 0.3334568647012896
+      },
+      {
+        "feature": "num__EnvironmentSatisfaction",
+        "mean_abs_shap": 0.3289762776888316
+      },
+      {
+        "feature": "num__NumCompaniesWorked",
+        "mean_abs_shap": 0.31001654927695865
+      },
+      {
+        "feature": "cat__MaritalStatus_Divorced",
+        "mean_abs_shap": 0.29425946877679293
+      },
+      {
+        "feature": "cat__OverTime_Yes",
+        "mean_abs_shap": 0.291174945259053
+      },
+      {
+        "feature": "cat__BusinessTravel_Travel_Frequently",
+        "mean_abs_shap": 0.26422749096909814
+      },
+      {
+        "feature": "num__YearsSinceLastPromotion",
+        "mean_abs_shap": 0.2597503585192544
+      },
+      {
+        "feature": "cat__JobRole_Laboratory Technician",
+        "mean_abs_shap": 0.2525035683103852
+      },
+      {
+        "feature": "num__RelationshipSatisfaction",
+        "mean_abs_shap": 0.2245503070770444
+      }
+    ]
+  },
+  "hr": {
+    "dataset": "hr",
+    "n": 14995,
+    "n_test": 2999,
+    "base_rate_test": 0.2377459153051017,
+    "features": [
+      "satisfaction_level",
+      "last_evaluation",
+      "number_project",
+      "average_montly_hours",
+      "time_spend_company",
+      "Work_accident",
+      "promotion_last_5years",
+      "department",
+      "salary_band"
+    ],
+    "cv": {
+      "logreg": {
+        "roc_auc": {
+          "mean": 0.826934080567678,
+          "std": 0.01354570473658179
+        },
+        "average_precision": {
+          "mean": 0.49277340967418004,
+          "std": 0.022692337021795336
+        },
+        "f1": {
+          "mean": 0.6109806617855462,
+          "std": 0.014585424030788028
+        },
+        "recall": {
+          "mean": 0.7946729345254555,
+          "std": 0.013142705124645767
+        },
+        "precision": {
+          "mean": 0.4964957935686084,
+          "std": 0.01723748922053359
+        }
+      },
+      "rf": {
+        "roc_auc": {
+          "mean": 0.9927593276584368,
+          "std": 0.003008332486573459
+        },
+        "average_precision": {
+          "mean": 0.9864665343436585,
+          "std": 0.0038005921830944747
+        },
+        "f1": {
+          "mean": 0.9527034608643667,
+          "std": 0.007322649565207042
+        },
+        "recall": {
+          "mean": 0.9260638461302116,
+          "std": 0.016469324019655205
+        },
+        "precision": {
+          "mean": 0.9811550959742181,
+          "std": 0.005072500906283704
+        }
+      },
+      "xgb": {
+        "roc_auc": {
+          "mean": 0.994017609590043,
+          "std": 0.0023346586564534063
+        },
+        "average_precision": {
+          "mean": 0.9889278478145404,
+          "std": 0.003380727297093023
+        },
+        "f1": {
+          "mean": 0.9700590548736795,
+          "std": 0.0029764166987204144
+        },
+        "recall": {
+          "mean": 0.9702129228500322,
+          "std": 0.007454545287241617
+        },
+        "precision": {
+          "mean": 0.9700491199562482,
+          "std": 0.010078423838961454
+        }
+      }
+    },
+    "best_model": "xgb",
+    "test": {
+      "roc_auc": 0.9950144731207338,
+      "pr_auc": 0.9903456088211392,
+      "accuracy": 0.9829943314438147,
+      "precision": 0.9571823204419889,
+      "recall": 0.9719495091164095,
+      "f1": 0.964509394572025,
+      "brier": 0.013650676235556602,
+      "base_rate": 0.2377459153051017,
+      "confusion_matrix": [
+        [
+          2255,
+          31
+        ],
+        [
+          20,
+          693
+        ]
+      ]
+    },
+    "permutation_importance_top15": [
+      {
+        "feature": "satisfaction_level",
+        "importance": 0.1345050793966323,
+        "std": 0.0056871463480650105
+      },
+      {
+        "feature": "time_spend_company",
+        "importance": 0.05051757204963696,
+        "std": 0.0029683024717493136
+      },
+      {
+        "feature": "average_montly_hours",
+        "importance": 0.014689849428008148,
+        "std": 0.0017671177910357925
+      },
+      {
+        "feature": "number_project",
+        "importance": 0.01427495125521662,
+        "std": 0.0004570247793896397
+      },
+      {
+        "feature": "last_evaluation",
+        "importance": 0.013972597087706332,
+        "std": 0.0018415321460715569
+      },
+      {
+        "feature": "salary_band",
+        "importance": 0.0015541426010389353,
+        "std": 0.0002689128864593416
+      },
+      {
+        "feature": "department",
+        "importance": 0.00103820406916183,
+        "std": 0.00024241345936767354
+      },
+      {
+        "feature": "Work_accident",
+        "importance": 0.00046421046948386113,
+        "std": 0.00036433426758930733
+      },
+      {
+        "feature": "promotion_last_5years",
+        "importance": 2.69185320980192e-05,
+        "std": 8.755325287700011e-05
+      }
+    ],
+    "shap_top15": [
+      {
+        "feature": "num__satisfaction_level",
+        "mean_abs_shap": 2.500788450241089
+      },
+      {
+        "feature": "num__time_spend_company",
+        "mean_abs_shap": 1.260527491569519
+      },
+      {
+        "feature": "num__average_montly_hours",
+        "mean_abs_shap": 0.9704155325889587
+      },
+      {
+        "feature": "num__last_evaluation",
+        "mean_abs_shap": 0.922607421875
+      },
+      {
+        "feature": "num__number_project",
+        "mean_abs_shap": 0.8937159180641174
+      },
+      {
+        "feature": "num__Work_accident",
+        "mean_abs_shap": 0.2927771210670471
+      },
+      {
+        "feature": "cat__salary_band_low",
+        "mean_abs_shap": 0.2830023169517517
+      },
+      {
+        "feature": "cat__salary_band_high",
+        "mean_abs_shap": 0.141779825091362
+      },
+      {
+        "feature": "cat__department_sales",
+        "mean_abs_shap": 0.10750322788953781
+      },
+      {
+        "feature": "cat__department_product_mng",
+        "mean_abs_shap": 0.07931549847126007
+      },
+      {
+        "feature": "cat__department_technical",
+        "mean_abs_shap": 0.07634831219911575
+      },
+      {
+        "feature": "cat__department_support",
+        "mean_abs_shap": 0.07268108427524567
+      },
+      {
+        "feature": "cat__salary_band_medium",
+        "mean_abs_shap": 0.0564829558134079
+      },
+      {
+        "feature": "cat__department_RandD",
+        "mean_abs_shap": 0.05192944034934044
+      },
+      {
+        "feature": "cat__department_IT",
+        "mean_abs_shap": 0.04785460606217384
+      }
+    ]
+  },
+  "av": {
+    "dataset": "av",
+    "n": 18359,
+    "n_test": 3672,
+    "base_rate_test": 0.1320806100217865,
+    "features": [
+      "city_development_index",
+      "gender",
+      "relevent_experience",
+      "enrolled_university",
+      "education_level",
+      "major_discipline",
+      "company_size",
+      "company_type",
+      "last_new_job",
+      "training_hours",
+      "experience_num"
+    ],
+    "cv": {
+      "logreg": {
+        "roc_auc": {
+          "mean": 0.6368451648279927,
+          "std": 0.011639209352274225
+        },
+        "average_precision": {
+          "mean": 0.20990502898959598,
+          "std": 0.005099992882430531
+        },
+        "f1": {
+          "mean": 0.2896274170621878,
+          "std": 0.011108505597083911
+        },
+        "recall": {
+          "mean": 0.5603092783505155,
+          "std": 0.027882738837728904
+        },
+        "precision": {
+          "mean": 0.19530145971443127,
+          "std": 0.006753498408279625
+        }
+      },
+      "rf": {
+        "roc_auc": {
+          "mean": 0.6408653279489938,
+          "std": 0.01224400288909574
+        },
+        "average_precision": {
+          "mean": 0.21241460051408806,
+          "std": 0.00867076824452203
+        },
+        "f1": {
+          "mean": 0.26747179185720465,
+          "std": 0.015111806445543155
+        },
+        "recall": {
+          "mean": 0.306701030927835,
+          "std": 0.020489285478713187
+        },
+        "precision": {
+          "mean": 0.2372464503794364,
+          "std": 0.012325204087423608
+        }
+      },
+      "xgb": {
+        "roc_auc": {
+          "mean": 0.6095420303788222,
+          "std": 0.01627774911967519
+        },
+        "average_precision": {
+          "mean": 0.20140102252681924,
+          "std": 0.00964393677746975
+        },
+        "f1": {
+          "mean": 0.26578672387639074,
+          "std": 0.01599505619737783
+        },
+        "recall": {
+          "mean": 0.3860824742268041,
+          "std": 0.022668694254944357
+        },
+        "precision": {
+          "mean": 0.20267206432507834,
+          "std": 0.012587394334306857
+        }
+      }
+    },
+    "best_model": "rf",
+    "test": {
+      "roc_auc": 0.6304972843931047,
+      "pr_auc": 0.2177436568742257,
+      "accuracy": 0.7810457516339869,
+      "precision": 0.246422893481717,
+      "recall": 0.31958762886597936,
+      "f1": 0.27827648114901254,
+      "brier": 0.172451610920159,
+      "base_rate": 0.1320806100217865,
+      "confusion_matrix": [
+        [
+          2713,
+          474
+        ],
+        [
+          330,
+          155
+        ]
+      ]
+    },
+    "permutation_importance_top15": [
+      {
+        "feature": "city_development_index",
+        "importance": 0.0639315162435021,
+        "std": 0.004402615155199801
+      },
+      {
+        "feature": "company_size",
+        "importance": 0.01623856905793189,
+        "std": 0.004830428239952714
+      },
+      {
+        "feature": "experience_num",
+        "importance": 0.01413211370936697,
+        "std": 0.005477941493028627
+      },
+      {
+        "feature": "relevent_experience",
+        "importance": 0.013423815823949733,
+        "std": 0.005347227449768143
+      },
+      {
+        "feature": "enrolled_university",
+        "importance": 0.007865717363386704,
+        "std": 0.0028495695839965062
+      },
+      {
+        "feature": "last_new_job",
+        "importance": 0.00338169076046696,
+        "std": 0.00506476133853188
+      },
+      {
+        "feature": "company_type",
+        "importance": 0.0028439472211529288,
+        "std": 0.0026813136917481486
+      },
+      {
+        "feature": "education_level",
+        "importance": -0.0013914048373062649,
+        "std": 0.0015358442930996081
+      },
+      {
+        "feature": "gender",
+        "importance": -0.0016693138038229166,
+        "std": 0.0016258462372865116
+      },
+      {
+        "feature": "major_discipline",
+        "importance": -0.003031726828384665,
+        "std": 0.0006316120586685543
+      },
+      {
+        "feature": "training_hours",
+        "importance": -0.003817659693535924,
+        "std": 0.004751062276773483
+      }
+    ],
+    "shap_top15": [
+      {
+        "feature": "num__city_development_index",
+        "mean_abs_shap": 0.05921840658239598
+      },
+      {
+        "feature": "num__experience_num",
+        "mean_abs_shap": 0.031074807120825453
+      },
+      {
+        "feature": "num__training_hours",
+        "mean_abs_shap": 0.02722154045803254
+      },
+      {
+        "feature": "cat__company_size_50-99",
+        "mean_abs_shap": 0.0259250607947458
+      },
+      {
+        "feature": "cat__relevent_experience_No relevent experience",
+        "mean_abs_shap": 0.016144511882435434
+      },
+      {
+        "feature": "cat__relevent_experience_Has relevent experience",
+        "mean_abs_shap": 0.013622400762342316
+      },
+      {
+        "feature": "cat__enrolled_university_no_enrollment",
+        "mean_abs_shap": 0.013006683042663962
+      },
+      {
+        "feature": "cat__education_level_Graduate",
+        "mean_abs_shap": 0.012725615440309639
+      },
+      {
+        "feature": "cat__enrolled_university_Full time course",
+        "mean_abs_shap": 0.011589638580506123
+      },
+      {
+        "feature": "cat__last_new_job_1",
+        "mean_abs_shap": 0.009156841150531808
+      },
+      {
+        "feature": "cat__company_size_100-500",
+        "mean_abs_shap": 0.007049642595505965
+      },
+      {
+        "feature": "cat__last_new_job_2",
+        "mean_abs_shap": 0.006722824294127108
+      },
+      {
+        "feature": "cat__education_level_Masters",
+        "mean_abs_shap": 0.0057280691304878745
+      },
+      {
+        "feature": "cat__company_size_10000+",
+        "mean_abs_shap": 0.005265964485880814
+      },
+      {
+        "feature": "cat__last_new_job_never",
+        "mean_abs_shap": 0.004654640163721246
+      }
+    ]
+  },
+  "academic": {
+    "dataset": "academic",
+    "n": 6793,
+    "features": [
+      "sex",
+      "title_2011"
+    ],
+    "cv": {
+      "logreg": {
+        "roc_auc": {
+          "mean": 0.694672600500507,
+          "std": 0.010816955289719023
+        },
+        "average_precision": {
+          "mean": 0.3313408683625999,
+          "std": 0.00958175987169986
+        },
+        "f1": {
+          "mean": 0.4737196317312651,
+          "std": 0.005561136196290289
+        },
+        "recall": {
+          "mean": 0.9993569131832798,
+          "std": 0.0012861736334405015
+        },
+        "precision": {
+          "mean": 0.31045665954941076,
+          "std": 0.004818710254297433
+        }
+      }
+    },
+    "best_model": "logreg",
+    "note": "title/sex only; no rich covariates available"
+  }
+}
