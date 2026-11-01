@@ -1,13 +1,14 @@
 # Python prediction service
 
-`backend/` trains a model on the fictional IBM HR Analytics sample and exposes a FastAPI service. The browser sends a profile to `POST /predict` when `VITE_API_BASE_URL` is set. Without that setting, the UI explicitly labels its local nearest-sample result as an exploratory estimate; it does not quietly claim a trained model is running.
+`backend/` trains separate models for fictional IBM sample attrition and anonymized single-company HRIS turnover. With `VITE_API_BASE_URL`, the browser sends profiles to the selected API endpoint. Without it, the frontend uses bundled logistic-regression cards built from stratified 80/20 splits and reports their training counts and held-out evaluation.
 
 ## Endpoints
 
 - `GET /health` — service and artifact status
 - `GET /model` — model version, algorithm, ordered features, dataset fingerprint, model card, and valid department-to-role options
 - `GET /evaluation` — cross-validation and held-out metrics
-- `POST /predict` — validated IBM profile, probability, model version/type, target, and SHAP contributions
+- `POST /predict` — validated IBM profile, probability, model version/type, target, training counts and SHAP contributions
+- `GET /workplace/model`, `GET /workplace/evaluation`, `POST /workplace/predict` — separate HRIS turnover model contract
 
 Training is offline. The inference service loads the saved pipeline once; it does not train during requests.
 
@@ -74,6 +75,6 @@ Model artifacts and held-out metrics are generated under `backend/artifacts/` an
 
 ## Scope and limits
 
-The deployed Vercel app currently hosts the Vite frontend. This change prepares the Python API contract and UI integration; it does not deploy a Python service or verify a live trained prediction. The connected model is IBM-only. The HRIS and job-change datasets remain research datasets and have different targets and feature schemas; they are not mixed into this IBM training table. Before serving those as prediction modes, each needs its own documented, trained, evaluated pipeline and matching form.
+The Vercel app can run the fitted browser logistic models from bundled static cards; this does not deploy the optional Python service. The IBM and HRIS sources have different targets, feature schemas, forms and fitted models. They remain separate and must not be pooled.
 
 The IBM records are synthetic. Performance on them does not establish validity for real employees or another organization. This project is an educational demonstration, not a hiring, firing, promotion, or employee scoring system. Review calibration, subgroup performance, privacy, access controls, and representative consented data before considering any operational use.
