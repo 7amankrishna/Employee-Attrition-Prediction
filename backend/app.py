@@ -15,6 +15,7 @@ Then point the frontend at it:  VITE_API_BASE_URL=http://localhost:8000
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Literal, Optional
@@ -28,14 +29,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, model_validator
 
-from model import (BUSINESS_TRAVEL, DEPARTMENTS, FEATURES, MARITAL_STATUSES, RANGES, ROLES,
+from model import (BUSINESS_TRAVEL, DEPARTMENTS, FEATURES, MARITAL_STATUSES, RANGES, ROLES, ROLES_BY_DEPARTMENT,
                    explainer_kind, shap_contributions, to_frame)
 
 ARTIFACTS = BACKEND / "artifacts"
 
 
 class Profile(BaseModel):
-    """The 15 modeled IBM sample features, validated to match the browser form."""
+    """The 20 IBM model features, validated to match the browser form."""
     JobRole: Literal[tuple(ROLES)]
     Department: Literal[tuple(DEPARTMENTS)]
     BusinessTravel: Literal[tuple(BUSINESS_TRAVEL)]
@@ -46,18 +47,29 @@ class Profile(BaseModel):
     MonthlyIncome: int = Field(..., ge=RANGES["MonthlyIncome"][0], le=RANGES["MonthlyIncome"][1])
     JobSatisfaction: int = Field(..., ge=1, le=4)
     WorkLifeBalance: int = Field(..., ge=1, le=4)
+    EnvironmentSatisfaction: int = Field(..., ge=1, le=4)
+    JobInvolvement: int = Field(..., ge=1, le=4)
     YearsAtCompany: int = Field(..., ge=0, le=40)
     YearsSinceLastPromotion: int = Field(..., ge=0, le=40)
     YearsWithCurrManager: int = Field(..., ge=0, le=40)
+    YearsInCurrentRole: int = Field(..., ge=0, le=40)
+    TotalWorkingYears: int = Field(..., ge=0, le=40)
+    StockOptionLevel: int = Field(..., ge=0, le=3)
     NumCompaniesWorked: int = Field(..., ge=0, le=9)
     DistanceFromHome: int = Field(..., ge=1, le=100)
 
     @model_validator(mode="after")
     def tenure_consistency(self):
+        if self.JobRole not in ROLES_BY_DEPARTMENT[self.Department]:
+            raise ValueError("JobRole is not available in the selected Department")
         if self.YearsSinceLastPromotion > self.YearsAtCompany:
             raise ValueError("YearsSinceLastPromotion cannot exceed YearsAtCompany")
         if self.YearsWithCurrManager > self.YearsAtCompany:
             raise ValueError("YearsWithCurrManager cannot exceed YearsAtCompany")
+        if self.YearsInCurrentRole > self.YearsAtCompany:
+            raise ValueError("YearsInCurrentRole cannot exceed YearsAtCompany")
+        if self.TotalWorkingYears < self.YearsAtCompany:
+            raise ValueError("TotalWorkingYears cannot be less than YearsAtCompany")
         return self
 
 
@@ -89,8 +101,12 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
                   description="Reference Python handoff for the THREAD retention-intelligence "
                               "frontend. Educational demo - not an employment decision system.",
                   lifespan=lifespan)
-    # Demo service: allow the Vite dev server and the deployed frontend. Restrict in production.
-    app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST"],
+    # Restrict browser access to the demo frontend and local development.
+    allowed_origins = [origin.strip() for origin in os.getenv(
+        "THREAD_ALLOWED_ORIGINS",
+        "https://employeeattrition-topaz.vercel.app,http://localhost:5173,http://127.0.0.1:5173",
+    ).split(",") if origin.strip()]
+    app.add_middleware(CORSMiddleware, allow_origins=allowed_origins, allow_methods=["GET", "POST"],
                        allow_headers=["*"])
 
     @app.get("/")
@@ -117,7 +133,9 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
         return {
             "model_version": art["model_version"],
             "model_type": art["model_type"],
+            "target": "P(Attrition=Yes)",
             "features": art["features"],
+            "roles_by_department": ROLES_BY_DEPARTMENT,
             "trained_at": art["trained_at"],
             "training_data": art["dataset"],
             "explainer": explainer_kind(art["pipeline"].named_steps["clf"]),
@@ -149,6 +167,8 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
         return {
             "probability": round(probability, 4),
             "model_version": art["model_version"],
+            "model_type": art["model_type"],
+            "target": "P(Attrition=Yes)",
             "explanation": explanation,
         }
 

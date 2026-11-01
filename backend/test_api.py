@@ -29,9 +29,14 @@ VALID = {
     "MonthlyIncome": 4000,
     "JobSatisfaction": 2,
     "WorkLifeBalance": 2,
+    "EnvironmentSatisfaction": 3,
+    "JobInvolvement": 3,
     "YearsAtCompany": 3,
     "YearsSinceLastPromotion": 1,
     "YearsWithCurrManager": 2,
+    "YearsInCurrentRole": 2,
+    "TotalWorkingYears": 8,
+    "StockOptionLevel": 0,
     "NumCompaniesWorked": 2,
     "DistanceFromHome": 24,
 }
@@ -56,9 +61,11 @@ def test_model_metadata(client):
     assert body["model_version"]
     assert body["features"] == ["JobRole", "Department", "BusinessTravel", "MaritalStatus", "OverTime",
                                 "Age", "JobLevel", "MonthlyIncome", "JobSatisfaction", "WorkLifeBalance",
-                                "YearsAtCompany", "YearsSinceLastPromotion", "YearsWithCurrManager",
-                                "NumCompaniesWorked", "DistanceFromHome"]
+                                "EnvironmentSatisfaction", "JobInvolvement", "YearsAtCompany",
+                                "YearsSinceLastPromotion", "YearsWithCurrManager", "YearsInCurrentRole",
+                                "TotalWorkingYears", "StockOptionLevel", "NumCompaniesWorked", "DistanceFromHome"]
     assert body["model_type"] in {"logreg", "rf", "xgb"}
+    assert body["roles_by_department"]["Human Resources"] == ["Human Resources"]
 
 
 def test_evaluation_contract(client):
@@ -98,6 +105,7 @@ def test_predict_probability_increases_with_risk(client):
 
 @pytest.mark.parametrize("patch", [
     {"JobRole": "Not A Role"},
+    {"Department": "Human Resources"},  # role/department combination is incompatible
     {"OverTime": "Maybe"},
     {"MonthlyIncome": 10},
     {"MonthlyIncome": 200000},
@@ -108,6 +116,9 @@ def test_predict_probability_increases_with_risk(client):
     {"YearsAtCompany": -1},
     {"YearsAtCompany": 41},
     {"YearsSinceLastPromotion": 5, "YearsAtCompany": 3},  # exceeds tenure
+    {"YearsInCurrentRole": 4, "YearsAtCompany": 3},
+    {"TotalWorkingYears": 2, "YearsAtCompany": 3},
+    {"StockOptionLevel": 4},
     {"DistanceFromHome": 0},
     {"DistanceFromHome": 101},
 ])

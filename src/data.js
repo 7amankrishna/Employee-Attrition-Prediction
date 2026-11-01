@@ -1,15 +1,22 @@
 export const roles = ['Sales Executive','Research Scientist','Laboratory Technician','Manufacturing Director','Healthcare Representative','Manager','Sales Representative','Research Director','Human Resources'];
 export const departments = ['Human Resources','Research & Development','Sales'];
+// Valid combinations observed in the IBM sample schema. Manager occurs in
+// both Sales and R&D; the other roles belong to one department.
+export const rolesByDepartment = {
+  'Human Resources':['Human Resources','Manager'],
+  'Research & Development':['Healthcare Representative','Laboratory Technician','Manager','Manufacturing Director','Research Director','Research Scientist'],
+  'Sales':['Manager','Sales Executive','Sales Representative'],
+};
 export const travelOptions = ['Non-Travel','Travel_Rarely','Travel_Frequently'];
 export const maritalStatuses = ['Divorced','Married','Single'];
 export const initialProfile = {
   JobRole:'Sales Executive', Department:'Sales', BusinessTravel:'Travel_Rarely', MaritalStatus:'Single',
   OverTime:'Yes', Age:32, JobLevel:1, MonthlyIncome:4000, JobSatisfaction:2, WorkLifeBalance:2,
-  YearsAtCompany:3, YearsSinceLastPromotion:1, YearsWithCurrManager:2,
+  EnvironmentSatisfaction:3, JobInvolvement:3, YearsAtCompany:3, YearsSinceLastPromotion:1,
+  YearsWithCurrManager:2, YearsInCurrentRole:2, TotalWorkingYears:8, StockOptionLevel:0,
   NumCompaniesWorked:2, DistanceFromHome:24,
 };
 export const PROFILE_FEATURES = Object.keys(initialProfile);
-export const DEMO_EXCHANGE_RATE = 83.5; // fixed demonstration conversion; not a live FX quote
 export const MILES_PER_KM = 1 / 1.609344;
 export function parseCSV(csv) { const lines=csv.trim().replace(/^\uFEFF/,'').split(/\r?\n/); const headers=lines.shift().split(','); return lines.map(line=>Object.fromEntries(line.split(',').map((v,i)=>[headers[i],v!==''&&!isNaN(v)?Number(v):v]))); }
 export function summary(rows) {const left=rows.filter(r=>r.Attrition==='Yes').length; return {total:rows.length,left,stayed:rows.length-left,rate:rows.length?left/rows.length*100:0};}
@@ -17,12 +24,15 @@ export function groups(rows,key,values) {return values.map(label=>({label,...sum
 export function profileFromRow(row) { return Object.fromEntries(PROFILE_FEATURES.map(key=>[key,row[key]])); }
 export function validateProfile(p) {
   const errors={};
-  const ranges={Age:[18,60],JobLevel:[1,5],MonthlyIncome:[100,100000],JobSatisfaction:[1,4],WorkLifeBalance:[1,4],YearsAtCompany:[0,40],YearsSinceLastPromotion:[0,40],YearsWithCurrManager:[0,40],NumCompaniesWorked:[0,9],DistanceFromHome:[1,100]};
+  const ranges={Age:[18,60],JobLevel:[1,5],MonthlyIncome:[100,100000],JobSatisfaction:[1,4],WorkLifeBalance:[1,4],EnvironmentSatisfaction:[1,4],JobInvolvement:[1,4],YearsAtCompany:[0,40],YearsSinceLastPromotion:[0,40],YearsWithCurrManager:[0,40],YearsInCurrentRole:[0,40],TotalWorkingYears:[0,40],StockOptionLevel:[0,3],NumCompaniesWorked:[0,9],DistanceFromHome:[1,100]};
   for(const [key,[min,max]] of Object.entries(ranges)) if(p[key]===''||!Number.isFinite(Number(p[key]))||Number(p[key])<min||Number(p[key])>max||!Number.isInteger(Number(p[key]))) errors[key]=`Enter a whole number from ${min} to ${max}.`;
   if(Number(p.YearsSinceLastPromotion)>Number(p.YearsAtCompany)) errors.YearsSinceLastPromotion='Cannot exceed years at the company.';
   if(Number(p.YearsWithCurrManager)>Number(p.YearsAtCompany)) errors.YearsWithCurrManager='Cannot exceed years at the company.';
+  if(Number(p.YearsInCurrentRole)>Number(p.YearsAtCompany)) errors.YearsInCurrentRole='Cannot exceed years at the company.';
+  if(Number(p.TotalWorkingYears)<Number(p.YearsAtCompany)) errors.TotalWorkingYears='Cannot be less than years at the company.';
   if(!roles.includes(p.JobRole)) errors.JobRole='Choose a valid job role.';
   if(!departments.includes(p.Department)) errors.Department='Choose a valid department.';
+  else if(!rolesByDepartment[p.Department]?.includes(p.JobRole)) errors.JobRole='Choose a role available in this department.';
   if(!travelOptions.includes(p.BusinessTravel)) errors.BusinessTravel='Choose a valid travel frequency.';
   if(!maritalStatuses.includes(p.MaritalStatus)) errors.MaritalStatus='Choose a valid marital status.';
   if(!['Yes','No'].includes(p.OverTime)) errors.OverTime='Choose Yes or No.';
@@ -32,9 +42,9 @@ export function validateProfile(p) {
 // exploratory similarity estimate, not a validated or calibrated employment model.
 export function estimateFromIBMData(profile, rows, neighbors=50) {
   if(!rows?.length) throw new Error('The IBM sample dataset is not loaded.');
-  const numeric=['Age','JobLevel','MonthlyIncome','JobSatisfaction','WorkLifeBalance','YearsAtCompany','YearsSinceLastPromotion','YearsWithCurrManager','NumCompaniesWorked','DistanceFromHome'];
+  const numeric=['Age','JobLevel','MonthlyIncome','JobSatisfaction','WorkLifeBalance','EnvironmentSatisfaction','JobInvolvement','YearsAtCompany','YearsSinceLastPromotion','YearsWithCurrManager','YearsInCurrentRole','TotalWorkingYears','StockOptionLevel','NumCompaniesWorked','DistanceFromHome'];
   const categorical=['JobRole','Department','BusinessTravel','MaritalStatus','OverTime'];
-  const ranges={Age:42,JobLevel:4,MonthlyIncome:99900,JobSatisfaction:3,WorkLifeBalance:3,YearsAtCompany:40,YearsSinceLastPromotion:40,YearsWithCurrManager:17,NumCompaniesWorked:9,DistanceFromHome:28};
+  const ranges={Age:42,JobLevel:4,MonthlyIncome:99900,JobSatisfaction:3,WorkLifeBalance:3,EnvironmentSatisfaction:3,JobInvolvement:3,YearsAtCompany:40,YearsSinceLastPromotion:40,YearsWithCurrManager:17,YearsInCurrentRole:18,TotalWorkingYears:40,StockOptionLevel:3,NumCompaniesWorked:9,DistanceFromHome:28};
   const weightedDistance=row=>{let sum=0,weight=0;for(const key of numeric){const w=key==='MonthlyIncome'?0.7:1;sum+=w*Math.min(1,Math.abs(Number(profile[key])-Number(row[key]))/ranges[key]);weight+=w;}for(const key of categorical){const w=key==='JobRole'||key==='OverTime'?1.2:0.8;sum+=w*(profile[key]===row[key]?0:1);weight+=w;}return sum/weight;};
   const nearest=rows.map(row=>({row,distance:weightedDistance(row)})).sort((a,b)=>a.distance-b.distance).slice(0,Math.min(neighbors,rows.length));
   const base=summary(rows).rate/100,kernel=nearest.map(({distance})=>1/Math.pow(0.04+distance,2)),effective=kernel.reduce((a,b)=>a+b,0);
