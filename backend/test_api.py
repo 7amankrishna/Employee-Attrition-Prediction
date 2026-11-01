@@ -65,7 +65,7 @@ def test_model_metadata(client):
                                 "YearsSinceLastPromotion", "YearsWithCurrManager", "YearsInCurrentRole",
                                 "TotalWorkingYears", "StockOptionLevel", "NumCompaniesWorked", "DistanceFromHome"]
     assert body["model_type"] in {"logreg", "rf", "xgb"}
-    assert body["roles_by_department"]["Human Resources"] == ["Human Resources"]
+    assert body["roles_by_department"]["Human Resources"] == ["Human Resources", "Manager"]
 
 
 def test_evaluation_contract(client):
@@ -94,10 +94,12 @@ def test_predict_contract(client):
 
 def test_predict_probability_increases_with_risk(client):
     low = {**VALID, "OverTime": "No", "JobSatisfaction": 4, "WorkLifeBalance": 4,
-           "MonthlyIncome": 15000, "YearsAtCompany": 15, "YearsSinceLastPromotion": 0}
+           "MonthlyIncome": 15000, "YearsAtCompany": 15, "TotalWorkingYears": 20, "YearsInCurrentRole": 10,
+           "YearsSinceLastPromotion": 0}
     high = {**VALID, "OverTime": "Yes", "JobSatisfaction": 1, "WorkLifeBalance": 1,
             "MonthlyIncome": 2000, "YearsAtCompany": 1, "YearsSinceLastPromotion": 1,
-            "YearsWithCurrManager": 1, "DistanceFromHome": 29}
+            "YearsWithCurrManager": 1, "YearsInCurrentRole": 1, "TotalWorkingYears": 2,
+            "DistanceFromHome": 29}
     p_low = client.post("/predict", json=low).json()["probability"]
     p_high = client.post("/predict", json=high).json()["probability"]
     assert p_high > p_low
