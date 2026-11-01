@@ -27,11 +27,11 @@ Import this GitHub repository into Vercel. Use the repository root, the **Vite**
 
 | Route | Experience |
 | --- | --- |
-| `/#overview` | Dataset summary, conceptual signal flow, calculated overtime and satisfaction charts |
-| `/#predict` | IBM profile form with dependent department/role options, 20 model inputs, validation, loading/error states and probability gauge |
-| `/#drivers` | Model-returned SHAP contributions and same-model what-if comparison when the API is connected; explicitly labeled local illustration otherwise |
-| `/#patterns` | Role, tenure and overtime cohort filters, role comparisons, heatmap, accessible tooltips, CSV export |
-| `/#model` | Training workflow, live metadata and held-out metrics when returned by the API, confusion matrix, responsible-use notes |
+| `/#overview` | Dataset summary and charts recalculated from the globally selected source: fictional IBM sample or separate anonymized HRIS |
+| `/#predict` | Dataset-specific validated profile form and trained probability output; each result reports training and total data entry counts |
+| `/#drivers` | Model contributions in log-odds for the browser logistic model, or SHAP from the optional API |
+| `/#patterns` | Dataset-specific department/role, salary, tenure and overtime filters with recalculated rates and cohort CSV export |
+| `/#model` | Actual training metadata, held-out metrics and confusion matrix for the selected dataset; backend API may supply the same contract |
 
 A guided tour connects the five pages. Forms and the latest result persist across page navigation during the current session; employee inputs are not saved to browser storage.
 
@@ -43,13 +43,13 @@ The included CSV contains 1,470 fictional IBM HR sample records, including 237 `
 - [CSV mirror used](https://github.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/blob/main/WA_Fn-UseC_-HR-Employee-Attrition.csv)
 - Local file: `public/data/ibm-hr.csv`
 
-The prediction studio offers **IBM sample profiles** and **manual non-identifying scenario entry**. In frontend-only mode, it compares the entered 20-feature profile with its nearest records in the bundled, fictional IBM sample and reports a sample-based similarity estimate; it is not a trained, validated or calibrated model and must not be interpreted as an employee assessment. Monthly income remains in the source dataset's units because its currency is undocumented; commute distance is converted to the API's miles unit when kilometres are selected. For a trained model and real SHAP explanations, configure the optional Python backend. The what-if explorer uses a second API prediction when the trained service is configured; it is explicitly illustrative in browser-only mode. No validation metrics are fabricated.
+The header switch changes the source across every section. IBM uses the 1,470-row fictional benchmark; Real HRIS uses a separate 14,995-row anonymized single-company dataset with its own target, input schema, model card, and charts. The datasets are never mixed. The Vercel frontend bundles balanced logistic-regression artifacts generated from stratified 80/20 splits, so predictions and held-out confusion matrices work without a separate API host. Each prediction reports training rows and dataset rows. Configure the optional Python API for the richer cross-validated model pipeline and SHAP where supported. This remains an educational demonstration, not an employee decision system.
 
 ## Python backend handoff
 
 See [docs/backend-contract.md](docs/backend-contract.md). `src/api.js` already isolates the prediction transport. Set `VITE_API_BASE_URL` only when your Python service implements the contract, then rebuild. This environment value is public configuration, never a place for secrets.
 
-The optional Python backend lives in [`backend/`](backend/README.md): `train.py` trains and evaluates a model on the same 20 IBM profile features used by the form (5-fold CV model selection, held-out metrics, model card), and `app.py` exposes `POST /predict` (with SHAP explanations), `GET /model` and `GET /evaluation`, plus contract tests (`pytest backend/test_api.py`):
+The optional Python backend lives in [`backend/`](backend/README.md): `train.py` serves the IBM profile, while `train_workplace.py` builds a separate HRIS model. `app.py` exposes prediction, model, and evaluation endpoints for both sources. `export_browser_models.py` regenerates the compact frontend model cards and their held-out metrics:
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
@@ -58,7 +58,7 @@ python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
 VITE_API_BASE_URL=http://localhost:8000 npm run dev
 ```
 
-In browser demo mode, explainability and evaluation do not invent metrics. When the Python service is configured, the UI renders returned SHAP contributions, model metadata, held-out evaluation, and a second prediction for what-if comparisons.
+In frontend mode, the model cards provide fitted logistic-regression inference and real held-out metrics. When the Python service is configured, the UI renders returned metadata and SHAP contributions when supported.
 
 ## Research datasets and analysis
 
@@ -76,9 +76,9 @@ Beyond the bundled IBM sample, three **real-world datasets** were located on Git
 src/
   main.jsx       Five pages, shared UI, charts and app state
   styles.css     Design tokens, responsive layouts, reduced-motion support
-  data.js        CSV parsing, profile validation, and IBM-sample similarity estimate
-  api.js         Local sample estimator / optional Python prediction API adapter
-public/data/     Bundled sample CSV
+  data.js        CSV parsing, source-specific validation, and dataset summaries
+  api.js         Bundled trained-model inference / optional Python API adapter
+public/data/     IBM and HRIS CSVs plus compact fitted model cards
 tests/         Dataset and profile validation checks
 docs/          Python API handoff and validation notes
 ```

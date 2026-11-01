@@ -25,12 +25,14 @@ if str(BACKEND) not in sys.path:
     sys.path.insert(0, str(BACKEND))
 
 import joblib
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, model_validator
 
 from model import (BUSINESS_TRAVEL, DEPARTMENTS, FEATURES, MARITAL_STATUSES, RANGES, ROLES, ROLES_BY_DEPARTMENT,
                    explainer_kind, shap_contributions, to_frame)
+from train_workplace import FEATURES as WORKPLACE_FEATURES
 
 ARTIFACTS = BACKEND / "artifacts"
 
@@ -73,10 +75,63 @@ class Profile(BaseModel):
         return self
 
 
+class WorkplaceProfile(BaseModel):
+    """Feature contract for the separate anonymized HRIS turnover dataset."""
+    satisfaction_level: float = Field(..., ge=0.09, le=1.0)
+    last_evaluation: float = Field(..., ge=0.36, le=1.0)
+    number_project: int = Field(..., ge=2, le=7)
+    average_montly_hours: int = Field(..., ge=96, le=310)
+    time_spend_company: int = Field(..., ge=2, le=10)
+    Work_accident: int = Field(..., ge=0, le=1)
+    promotion_last_5years: int = Field(..., ge=0, le=1)
+    Department: Literal["IT", "RandD", "accounting", "hr", "management", "marketing", "product_mng", "sales", "support", "technical"]
+    salary: Literal["low", "medium", "high"]
+
+
+def workplace_shap(artifact: dict, profile: dict, top: int = 8) -> dict:
+    """Return SHAP contributions for the real-HRIS model, if its explainer works."""
+    import numpy as np
+    import pandas as pd
+    import shap
+
+    pipe = artifact["pipeline"]
+    row = pd.DataFrame([{key: profile[key] for key in WORKPLACE_FEATURES}], columns=WORKPLACE_FEATURES)
+    transformed = pipe.named_steps["prep"].transform(row)
+    names = pipe.named_steps["prep"].get_feature_names_out()
+    clf = pipe.named_steps["clf"]
+    if explainer_kind(clf) == "tree":
+        explainer = shap.TreeExplainer(clf)
+    else:
+        explainer = shap.LinearExplainer(clf, np.asarray(artifact.get("background", transformed)))
+    values = explainer.shap_values(transformed)
+    if isinstance(values, list):
+        values = values[1]
+    elif getattr(values, "ndim", 2) == 3:
+        values = values[:, :, 1] if values.shape[-1] == 2 else values[..., 0]
+    values = np.asarray(values).reshape(-1)
+    order = np.argsort(-np.abs(values))[:top]
+    contributions = []
+    for i in order:
+        detail = str(names[i])
+        feature = detail.split("__", 1)[1] if "__" in detail else detail
+        for key in WORKPLACE_FEATURES:
+            if detail.startswith(f"num__{key}") or detail.startswith(f"cat__{key}_"):
+                feature = key
+                break
+        contributions.append({"feature": feature, "detail": detail,
+                              "value": profile.get(feature), "contribution": float(values[i])})
+    expected = explainer.expected_value
+    if isinstance(expected, list):
+        expected = expected[1]
+    base = float(np.asarray(expected).reshape(-1)[0])
+    return {"method": "shap", "output": "log-odds", "base_value": base,
+            "contributions": contributions}
+
+
 def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
     from contextlib import asynccontextmanager
 
-    state = {"artifact": None, "metrics": None}
+    state = {"artifact": None, "metrics": None, "workplace_artifact": None, "workplace_metrics": None}
 
     def load(force: bool = False):
         if state["artifact"] is None or force:
@@ -87,6 +142,16 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
             mpath = artifacts_dir / "metrics.json"
             state["metrics"] = json.loads(mpath.read_text()) if mpath.exists() else None
         return state["artifact"]
+
+    def load_workplace():
+        if state["workplace_artifact"] is None:
+            path = artifacts_dir / "workplace-turnover" / "model.joblib"
+            if not path.exists():
+                raise HTTPException(503, "workplace model is not trained - run `python backend/train_workplace.py` first")
+            state["workplace_artifact"] = joblib.load(path)
+            mpath = artifacts_dir / "workplace-turnover" / "metrics.json"
+            state["workplace_metrics"] = json.loads(mpath.read_text()) if mpath.exists() else None
+        return state["workplace_artifact"]
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -112,7 +177,8 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
     @app.get("/")
     def root():
         return {"service": "THREAD attrition prediction service", "docs": "/docs",
-                "endpoints": ["/health", "/model", "/evaluation", "/predict"]}
+                "endpoints": ["/health", "/model", "/evaluation", "/predict",
+                              "/workplace/model", "/workplace/evaluation", "/workplace/predict"]}
 
     @app.get("/health")
     def health():
@@ -142,6 +208,40 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
             "card": card,
         }
 
+    @app.get("/workplace/model")
+    def workplace_model_info():
+        art = load_workplace()
+        return {"model_id": "workplace-turnover", "model_version": art["model_version"],
+                "model_type": art["model_type"], "target": "P(left=1)", "features": art["features"],
+                "training_data": art["dataset"], "data_kind": "real anonymized company HRIS",
+                "warning": "This single-company dataset is not a general population estimate."}
+
+    @app.get("/workplace/evaluation")
+    def workplace_evaluation():
+        load_workplace()
+        metrics = state["workplace_metrics"]
+        if metrics is None:
+            raise HTTPException(503, "workplace metrics are missing; retrain the model")
+        return {"model_id": metrics["model_id"], "model_version": metrics["model_version"],
+                "model_type": metrics["model_type"], "seed": metrics["seed"],
+                "n_total": metrics["n_total"], "n_train": metrics["n_train"],
+                "n_test": metrics["n_test"], "cv": metrics["cv"], "held_out_test": metrics["test"]}
+
+    @app.post("/workplace/predict")
+    def predict_workplace(profile: WorkplaceProfile):
+        art = load_workplace()
+        row = pd.DataFrame([profile.model_dump()], columns=WORKPLACE_FEATURES)
+        probability = float(art["pipeline"].predict_proba(row)[0, 1])
+        try:
+            explanation = workplace_shap(art, profile.model_dump())
+        except Exception as exc:
+            explanation = {"method": "shap", "error": str(exc), "contributions": []}
+        return {"probability": round(probability, 4), "model_id": "workplace-turnover",
+                "model_version": art["model_version"], "model_type": art["model_type"],
+                "target": "P(left=1)", "training_entries": art["dataset"]["n_train"],
+                "dataset_entries": art["dataset"]["n"], "explanation": explanation,
+                "warning": "This model reflects one anonymized company dataset and is not a real employee assessment."}
+
     @app.get("/evaluation")
     def evaluation():
         load()
@@ -169,6 +269,8 @@ def create_app(artifacts_dir: Path = ARTIFACTS) -> FastAPI:
             "model_version": art["model_version"],
             "model_type": art["model_type"],
             "target": "P(Attrition=Yes)",
+            "training_entries": art["dataset"]["n_train"],
+            "dataset_entries": art["dataset"]["n"],
             "explanation": explanation,
         }
 

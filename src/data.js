@@ -16,9 +16,35 @@ export const initialProfile = {
   YearsWithCurrManager:2, YearsInCurrentRole:2, TotalWorkingYears:8, StockOptionLevel:0,
   NumCompaniesWorked:2, DistanceFromHome:24,
 };
+export const workplaceDepartments = ['IT','RandD','accounting','hr','management','marketing','product_mng','sales','support','technical'];
+export const workplaceSalaries = ['low','medium','high'];
+export const initialWorkplaceProfile = {
+  satisfaction_level:0.62, last_evaluation:0.72, number_project:4,
+  average_montly_hours:180, time_spend_company:3, Work_accident:0,
+  promotion_last_5years:0, Department:'sales', salary:'medium',
+};
+export const WORKPLACE_FEATURES = Object.keys(initialWorkplaceProfile);
 export const PROFILE_FEATURES = Object.keys(initialProfile);
 export const MILES_PER_KM = 1 / 1.609344;
-export function parseCSV(csv) { const lines=csv.trim().replace(/^\uFEFF/,'').split(/\r?\n/); const headers=lines.shift().split(','); return lines.map(line=>Object.fromEntries(line.split(',').map((v,i)=>[headers[i],v!==''&&!isNaN(v)?Number(v):v]))); }
+export function parseCSV(csv) {
+  const records=[];let row=[],field='',quoted=false;
+  const input=csv.replace(/^\uFEFF/,'');
+  for(let i=0;i<input.length;i++){
+    const ch=input[i];
+    if(ch==='"'){
+      if(quoted&&input[i+1]==='"'){field+='"';i++;}
+      else quoted=!quoted;
+    } else if(ch===','&&!quoted){row.push(field);field='';}
+    else if((ch==='\n'||ch==='\r')&&!quoted){
+      if(ch==='\r'&&input[i+1]==='\n')i++;
+      row.push(field);field='';if(row.some(value=>value!==''))records.push(row);row=[];
+    } else field+=ch;
+  }
+  if(field!==''||row.length){row.push(field);records.push(row);}
+  const headers=records.shift()||[];
+  return records.map(values=>Object.fromEntries(headers.map((header,index)=>{const value=values[index]??'';return [header,value!==''&&!Number.isNaN(Number(value))?Number(value):value];})));
+}
+export function normalizeWorkplaceRows(rows){return rows.map(row=>({...row,Attrition:Number(row.left)===1?'Yes':'No'}));}
 export function summary(rows) {const left=rows.filter(r=>r.Attrition==='Yes').length; return {total:rows.length,left,stayed:rows.length-left,rate:rows.length?left/rows.length*100:0};}
 export function groups(rows,key,values) {return values.map(label=>({label,...summary(rows.filter(r=>String(r[key])===String(label)))}));}
 export function profileFromRow(row) { return Object.fromEntries(PROFILE_FEATURES.map(key=>[key,row[key]])); }
@@ -36,6 +62,14 @@ export function validateProfile(p) {
   if(!travelOptions.includes(p.BusinessTravel)) errors.BusinessTravel='Choose a valid travel frequency.';
   if(!maritalStatuses.includes(p.MaritalStatus)) errors.MaritalStatus='Choose a valid marital status.';
   if(!['Yes','No'].includes(p.OverTime)) errors.OverTime='Choose Yes or No.';
+  return errors;
+}
+export function validateWorkplaceProfile(p){
+  const errors={};
+  const ranges={satisfaction_level:[0.09,1],last_evaluation:[0.36,1],number_project:[2,7],average_montly_hours:[96,310],time_spend_company:[2,10],Work_accident:[0,1],promotion_last_5years:[0,1]};
+  for(const [key,[min,max]] of Object.entries(ranges))if(p[key]===''||!Number.isFinite(Number(p[key]))||Number(p[key])<min||Number(p[key])>max||(['number_project','average_montly_hours','time_spend_company','Work_accident','promotion_last_5years'].includes(key)&&!Number.isInteger(Number(p[key]))))errors[key]=`Enter a valid value from ${min} to ${max}.`;
+  if(!workplaceDepartments.includes(p.Department))errors.Department='Choose a department from the HRIS dataset.';
+  if(!workplaceSalaries.includes(p.salary))errors.salary='Choose a salary band from the HRIS dataset.';
   return errors;
 }
 // Transparent, local fallback over the bundled fictional IBM sample. This is an
