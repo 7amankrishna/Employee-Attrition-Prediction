@@ -5,7 +5,16 @@ export async function predict(profile,signal,rows) {
  const errors=validateProfile(profile);if(Object.keys(errors).length)throw new Error('Please check the highlighted profile fields.');
  if(!base){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,250);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'));},{once:true});});return estimateFromIBMData(profile,rows);}
  const response=await fetch(`${base}/predict`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(profile),signal});
- if(!response.ok)throw new Error('The prediction service is unavailable or needs the updated 15-feature model. Your profile is preserved. Please try again.');
+ if(!response.ok)throw new Error('The prediction service rejected this profile or is unavailable. Check the fields and confirm that the service uses the current 20-feature schema. Your profile is preserved.');
  const result=await response.json();if(typeof result.probability!=='number'||result.probability<0||result.probability>1)throw new Error('The service returned an invalid probability. Please try again.');
- return {...result,mode:'model'};
+ return {...result,mode:'model',model_type:result.model_type||null};
 }
+
+async function get(path,signal){
+ if(!base) return null;
+ const response=await fetch(`${base}${path}`,{signal});
+ if(!response.ok)throw new Error(`Could not load model details (${response.status}).`);
+ return response.json();
+}
+export const getModelInfo=signal=>get('/model',signal);
+export const getEvaluation=signal=>get('/evaluation',signal);

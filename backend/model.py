@@ -1,7 +1,8 @@
 """Model definition shared by train.py and app.py.
 
-The prediction contract uses 15 signals available in the fictional IBM HR sample.
-Income is monthly USD; distance from home is miles.
+The IBM model uses 20 signals available in the fictional HR sample.
+Income is monthly units as represented in the source; the dataset does not
+document a currency. Distance from home is in miles.
 """
 from __future__ import annotations
 
@@ -21,13 +22,21 @@ ROLES = [
     "Sales Representative", "Research Director", "Human Resources",
 ]
 DEPARTMENTS = ["Human Resources", "Research & Development", "Sales"]
+ROLES_BY_DEPARTMENT = {
+    "Human Resources": ["Human Resources", "Manager"],
+    "Research & Development": ["Healthcare Representative", "Laboratory Technician", "Manager",
+                                "Manufacturing Director", "Research Director", "Research Scientist"],
+    "Sales": ["Manager", "Sales Executive", "Sales Representative"],
+}
 BUSINESS_TRAVEL = ["Non-Travel", "Travel_Rarely", "Travel_Frequently"]
 MARITAL_STATUSES = ["Divorced", "Married", "Single"]
 
 CATEGORICAL_FEATURES = ["JobRole", "Department", "BusinessTravel", "MaritalStatus", "OverTime"]
 NUMERIC_FEATURES = [
     "Age", "JobLevel", "MonthlyIncome", "JobSatisfaction", "WorkLifeBalance",
+    "EnvironmentSatisfaction", "JobInvolvement",
     "YearsAtCompany", "YearsSinceLastPromotion", "YearsWithCurrManager",
+    "YearsInCurrentRole", "TotalWorkingYears", "StockOptionLevel",
     "NumCompaniesWorked", "DistanceFromHome",
 ]
 FEATURES = CATEGORICAL_FEATURES[:4] + ["OverTime"] + NUMERIC_FEATURES
@@ -35,13 +44,15 @@ FEATURES = CATEGORICAL_FEATURES[:4] + ["OverTime"] + NUMERIC_FEATURES
 RANGES = {
     "Age": (18, 60), "JobLevel": (1, 5), "MonthlyIncome": (100, 100000),
     "JobSatisfaction": (1, 4), "WorkLifeBalance": (1, 4),
+    "EnvironmentSatisfaction": (1, 4), "JobInvolvement": (1, 4),
     "YearsAtCompany": (0, 40), "YearsSinceLastPromotion": (0, 40),
-    "YearsWithCurrManager": (0, 40), "NumCompaniesWorked": (0, 9),
+    "YearsWithCurrManager": (0, 40), "YearsInCurrentRole": (0, 40),
+    "TotalWorkingYears": (0, 40), "StockOptionLevel": (0, 3), "NumCompaniesWorked": (0, 9),
     "DistanceFromHome": (1, 100),
 }
 
 SEED = 20261101
-MODEL_VERSION = "2.0.0+20261101"
+MODEL_VERSION = "2.1.0+20261101"
 
 
 def load_contract_frame(csv_path):
