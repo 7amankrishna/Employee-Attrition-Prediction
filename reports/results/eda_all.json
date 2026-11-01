@@ -1,0 +1,2319 @@
+{
+  "ibm": {
+    "dataset": "ibm",
+    "description": "IBM HR Analytics sample (synthetic), 1,470 employees",
+    "overall": {
+      "n": 1470,
+      "left": 237,
+      "stayed": 1233,
+      "rate": 0.16122448979591836
+    },
+    "missing": {},
+    "tests": {
+      "OverTime": {
+        "feature": "OverTime",
+        "n": 1470,
+        "chi2": 87.56429365828768,
+        "dof": 1,
+        "p": 8.15842372153832e-21,
+        "cramers_v": 0.24406463632881792,
+        "rates_by_level": {
+          "Yes": 0.30528846153846156,
+          "No": 0.10436432637571158
+        },
+        "counts": {
+          "0": {
+            "No": 944,
+            "Yes": 289
+          },
+          "1": {
+            "No": 110,
+            "Yes": 127
+          }
+        }
+      },
+      "JobSatisfaction": {
+        "feature": "JobSatisfaction",
+        "n": 1470,
+        "chi2": 17.505077010348,
+        "dof": 3,
+        "p": 0.0005563004510387556,
+        "cramers_v": 0.1091247710343438,
+        "rates_by_level": {
+          "1": 0.22837370242214533,
+          "3": 0.16515837104072398,
+          "2": 0.16428571428571428,
+          "4": 0.11328976034858387
+        },
+        "counts": {
+          "0": {
+            "1": 223,
+            "2": 234,
+            "3": 369,
+            "4": 407
+          },
+          "1": {
+            "1": 66,
+            "2": 46,
+            "3": 73,
+            "4": 52
+          }
+        }
+      },
+      "WorkLifeBalance": {
+        "feature": "WorkLifeBalance",
+        "n": 1470,
+        "chi2": 16.3250970916474,
+        "dof": 3,
+        "p": 0.0009725698845348824,
+        "cramers_v": 0.10538267516821954,
+        "rates_by_level": {
+          "1": 0.3125,
+          "4": 0.17647058823529413,
+          "2": 0.1686046511627907,
+          "3": 0.1422172452407615
+        },
+        "counts": {
+          "0": {
+            "1": 55,
+            "2": 286,
+            "3": 766,
+            "4": 126
+          },
+          "1": {
+            "1": 25,
+            "2": 58,
+            "3": 127,
+            "4": 27
+          }
+        }
+      },
+      "EnvironmentSatisfaction": {
+        "feature": "EnvironmentSatisfaction",
+        "n": 1470,
+        "chi2": 22.503881435842295,
+        "dof": 3,
+        "p": 5.1234689062894205e-05,
+        "cramers_v": 0.12372858554725893,
+        "rates_by_level": {
+          "1": 0.2535211267605634,
+          "2": 0.14982578397212543,
+          "3": 0.1368653421633554,
+          "4": 0.13452914798206278
+        },
+        "counts": {
+          "0": {
+            "1": 212,
+            "2": 244,
+            "3": 391,
+            "4": 386
+          },
+          "1": {
+            "1": 72,
+            "2": 43,
+            "3": 62,
+            "4": 60
+          }
+        }
+      },
+      "JobInvolvement": {
+        "feature": "JobInvolvement",
+        "n": 1470,
+        "chi2": 28.492021234659283,
+        "dof": 3,
+        "p": 2.8631806367134195e-06,
+        "cramers_v": 0.13922042727457964,
+        "rates_by_level": {
+          "1": 0.3373493975903614,
+          "2": 0.18933333333333333,
+          "3": 0.14400921658986174,
+          "4": 0.09027777777777778
+        },
+        "counts": {
+          "0": {
+            "1": 55,
+            "2": 304,
+            "3": 743,
+            "4": 131
+          },
+          "1": {
+            "1": 28,
+            "2": 71,
+            "3": 125,
+            "4": 13
+          }
+        }
+      },
+      "MaritalStatus": {
+        "feature": "MaritalStatus",
+        "n": 1470,
+        "chi2": 46.163676540848705,
+        "dof": 2,
+        "p": 9.45551106034083e-11,
+        "cramers_v": 0.1772113472450737,
+        "rates_by_level": {
+          "Single": 0.2553191489361702,
+          "Married": 0.12481426448736999,
+          "Divorced": 0.10091743119266056
+        },
+        "counts": {
+          "0": {
+            "Divorced": 294,
+            "Married": 589,
+            "Single": 350
+          },
+          "1": {
+            "Divorced": 33,
+            "Married": 84,
+            "Single": 120
+          }
+        }
+      },
+      "BusinessTravel": {
+        "feature": "BusinessTravel",
+        "n": 1470,
+        "chi2": 24.182413685655174,
+        "dof": 2,
+        "p": 5.608614476449931e-06,
+        "cramers_v": 0.12825997643406717,
+        "rates_by_level": {
+          "Travel_Frequently": 0.2490974729241877,
+          "Travel_Rarely": 0.14956855225311602,
+          "Non-Travel": 0.08
+        },
+        "counts": {
+          "0": {
+            "Non-Travel": 138,
+            "Travel_Frequently": 208,
+            "Travel_Rarely": 887
+          },
+          "1": {
+            "Non-Travel": 12,
+            "Travel_Frequently": 69,
+            "Travel_Rarely": 156
+          }
+        }
+      },
+      "Department": {
+        "feature": "Department",
+        "n": 1470,
+        "chi2": 10.79600732241067,
+        "dof": 2,
+        "p": 0.004525606574479633,
+        "cramers_v": 0.0856984402909795,
+        "rates_by_level": {
+          "Sales": 0.2062780269058296,
+          "Human Resources": 0.19047619047619047,
+          "Research & Development": 0.1383975026014568
+        },
+        "counts": {
+          "0": {
+            "Human Resources": 51,
+            "Research & Development": 828,
+            "Sales": 354
+          },
+          "1": {
+            "Human Resources": 12,
+            "Research & Development": 133,
+            "Sales": 92
+          }
+        }
+      },
+      "Gender": {
+        "feature": "Gender",
+        "n": 1470,
+        "chi2": 1.1169671241970975,
+        "dof": 1,
+        "p": 0.29057244902890855,
+        "cramers_v": 0.027565224125453088,
+        "rates_by_level": {
+          "Male": 0.17006802721088435,
+          "Female": 0.14795918367346939
+        },
+        "counts": {
+          "0": {
+            "Female": 501,
+            "Male": 732
+          },
+          "1": {
+            "Female": 87,
+            "Male": 150
+          }
+        }
+      },
+      "EducationField": {
+        "feature": "EducationField",
+        "n": 1470,
+        "chi2": 16.024674119585427,
+        "dof": 5,
+        "p": 0.006773980139025212,
+        "cramers_v": 0.10440851908182988,
+        "rates_by_level": {
+          "Human Resources": 0.25925925925925924,
+          "Technical Degree": 0.24242424242424243,
+          "Marketing": 0.22012578616352202,
+          "Life Sciences": 0.14686468646864687,
+          "Medical": 0.13577586206896552,
+          "Other": 0.13414634146341464
+        },
+        "counts": {
+          "0": {
+            "Human Resources": 20,
+            "Life Sciences": 517,
+            "Marketing": 124,
+            "Medical": 401,
+            "Other": 71,
+            "Technical Degree": 100
+          },
+          "1": {
+            "Human Resources": 7,
+            "Life Sciences": 89,
+            "Marketing": 35,
+            "Medical": 63,
+            "Other": 11,
+            "Technical Degree": 32
+          }
+        }
+      },
+      "JobRole": {
+        "feature": "JobRole",
+        "n": 1470,
+        "chi2": 86.19025367670434,
+        "dof": 8,
+        "p": 2.752481638050657e-15,
+        "cramers_v": 0.24214215996065436,
+        "rates_by_level": {
+          "Sales Representative": 0.39759036144578314,
+          "Laboratory Technician": 0.23938223938223938,
+          "Human Resources": 0.23076923076923078,
+          "Sales Executive": 0.17484662576687116,
+          "Research Scientist": 0.16095890410958905,
+          "Manufacturing Director": 0.06896551724137931,
+          "Healthcare Representative": 0.06870229007633588,
+          "Manager": 0.049019607843137254,
+          "Research Director": 0.025
+        },
+        "counts": {
+          "0": {
+            "Healthcare Representative": 122,
+            "Human Resources": 40,
+            "Laboratory Technician": 197,
+            "Manager": 97,
+            "Manufacturing Director": 135,
+            "Research Director": 78,
+            "Research Scientist": 245,
+            "Sales Executive": 269,
+            "Sales Representative": 50
+          },
+          "1": {
+            "Healthcare Representative": 9,
+            "Human Resources": 12,
+            "Laboratory Technician": 62,
+            "Manager": 5,
+            "Manufacturing Director": 10,
+            "Research Director": 2,
+            "Research Scientist": 47,
+            "Sales Executive": 57,
+            "Sales Representative": 33
+          }
+        }
+      },
+      "StockOptionLevel": {
+        "feature": "StockOptionLevel",
+        "n": 1470,
+        "chi2": 60.59830108612225,
+        "dof": 3,
+        "p": 4.379390336108354e-13,
+        "cramers_v": 0.2030353025269054,
+        "rates_by_level": {
+          "0": 0.24405705229793978,
+          "3": 0.17647058823529413,
+          "1": 0.09395973154362416,
+          "2": 0.0759493670886076
+        },
+        "counts": {
+          "0": {
+            "0": 477,
+            "1": 540,
+            "2": 146,
+            "3": 70
+          },
+          "1": {
+            "0": 154,
+            "1": 56,
+            "2": 12,
+            "3": 15
+          }
+        }
+      },
+      "PerformanceRating": {
+        "feature": "PerformanceRating",
+        "n": 1470,
+        "chi2": 0.00015475439428271534,
+        "dof": 1,
+        "p": 0.9900745465934576,
+        "cramers_v": 0.0003244612429112405,
+        "rates_by_level": {
+          "4": 0.16371681415929204,
+          "3": 0.1607717041800643
+        },
+        "counts": {
+          "0": {
+            "3": 1044,
+            "4": 189
+          },
+          "1": {
+            "3": 200,
+            "4": 37
+          }
+        }
+      },
+      "Age": {
+        "feature": "Age",
+        "n": 1470,
+        "mean_left": 33.607594936708864,
+        "sd_left": 9.689349895351624,
+        "mean_stay": 37.561232765612324,
+        "sd_stay": 8.888360024976535,
+        "median_left": 32.0,
+        "median_stay": 36.0,
+        "mannwhitney_p": 5.304342075341702e-11,
+        "welch_t_p": 1.3797600649439802e-08,
+        "t": -5.82801185398895,
+        "rank_biserial": 0.2686425684670164,
+        "cohens_d": -0.4382253767967076
+      },
+      "MonthlyIncome": {
+        "feature": "MonthlyIncome",
+        "n": 1470,
+        "mean_left": 4787.0928270042195,
+        "sd_left": 3640.210367103852,
+        "mean_stay": 6832.739659367397,
+        "sd_stay": 4818.208000784481,
+        "median_left": 3202.0,
+        "median_stay": 5204.0,
+        "mannwhitney_p": 2.950830917288873e-14,
+        "welch_t_p": 4.433588628286069e-13,
+        "t": -7.482621586644742,
+        "rank_biserial": 0.3113397052231017,
+        "cohens_d": -0.44001780335915724
+      },
+      "DistanceFromHome": {
+        "feature": "DistanceFromHome",
+        "n": 1470,
+        "mean_left": 10.632911392405063,
+        "sd_left": 8.45252526982503,
+        "mean_stay": 8.915652879156529,
+        "sd_stay": 8.0126334854975,
+        "median_left": 9.0,
+        "median_stay": 7.0,
+        "mannwhitney_p": 0.0023870470273627984,
+        "welch_t_p": 0.0041365119715114085,
+        "t": 2.888183062817627,
+        "rank_biserial": -0.12398150714698808,
+        "cohens_d": 0.21240143819754076
+      },
+      "YearsAtCompany": {
+        "feature": "YearsAtCompany",
+        "n": 1470,
+        "mean_left": 5.1308016877637135,
+        "sd_left": 5.9499840292049315,
+        "mean_stay": 7.369018653690187,
+        "sd_stay": 6.096298144398657,
+        "median_left": 3.0,
+        "median_stay": 6.0,
+        "mannwhitney_p": 2.916191369956416e-13,
+        "welch_t_p": 2.2859051752725088e-07,
+        "t": -5.282596058921782,
+        "rank_biserial": 0.2979149342449722,
+        "cohens_d": -0.36855125707708747
+      },
+      "TotalWorkingYears": {
+        "feature": "TotalWorkingYears",
+        "n": 1470,
+        "mean_left": 8.244725738396625,
+        "sd_left": 7.169203767330978,
+        "mean_stay": 11.862935928629359,
+        "sd_stay": 7.7607192402878065,
+        "median_left": 7.0,
+        "median_stay": 10.0,
+        "mannwhitney_p": 2.399569364798952e-14,
+        "welch_t_p": 1.1598167528069107e-11,
+        "t": -7.019178520252026,
+        "rank_biserial": 0.311705866450392,
+        "cohens_d": -0.47181508207183365
+      },
+      "YearsSinceLastPromotion": {
+        "feature": "YearsSinceLastPromotion",
+        "n": 1470,
+        "mean_left": 1.9451476793248945,
+        "sd_left": 3.153076866823644,
+        "mean_stay": 2.234387672343877,
+        "sd_stay": 3.2347622258876654,
+        "median_left": 1.0,
+        "median_stay": 1.0,
+        "mannwhitney_p": 0.0411791057847264,
+        "welch_t_p": 0.19865128276906294,
+        "t": -1.2879266009446948,
+        "rank_biserial": 0.08032619147836739,
+        "cohens_d": -0.08977673651068956
+      },
+      "YearsInCurrentRole": {
+        "feature": "YearsInCurrentRole",
+        "n": 1470,
+        "mean_left": 2.9029535864978904,
+        "sd_left": 3.1748267886086583,
+        "mean_stay": 4.484184914841849,
+        "sd_stay": 3.6494019263879665,
+        "median_left": 2.0,
+        "median_stay": 3.0,
+        "mannwhitney_p": 4.429559530312778e-12,
+        "welch_t_p": 3.1873903722051327e-11,
+        "t": -6.847079159882748,
+        "rank_biserial": 0.2799011706893071,
+        "cohens_d": -0.44201100022171497
+      },
+      "YearsWithCurrManager": {
+        "feature": "YearsWithCurrManager",
+        "n": 1470,
+        "mean_left": 2.852320675105485,
+        "sd_left": 3.143348656781121,
+        "mean_stay": 4.367396593673966,
+        "sd_stay": 3.5941160138926453,
+        "median_left": 2.0,
+        "median_stay": 3.0,
+        "mannwhitney_p": 1.8067542583144407e-11,
+        "welch_t_p": 1.185021900003063e-10,
+        "t": -6.6333988161585,
+        "rank_biserial": 0.27204752567406176,
+        "cohens_d": -0.429743009361075
+      },
+      "NumCompaniesWorked": {
+        "feature": "NumCompaniesWorked",
+        "n": 1470,
+        "mean_left": 2.940928270042194,
+        "sd_left": 2.6785185917831384,
+        "mean_stay": 2.6455798864557987,
+        "sd_stay": 2.4600902756342986,
+        "median_left": 1.0,
+        "median_stay": 2.0,
+        "mannwhitney_p": 0.24236505088116522,
+        "welch_t_p": 0.11633402601697646,
+        "t": 1.574651071928319,
+        "rank_biserial": -0.04667015717556233,
+        "cohens_d": 0.11830521688543076
+      },
+      "PercentSalaryHike": {
+        "feature": "PercentSalaryHike",
+        "n": 1470,
+        "mean_left": 15.09704641350211,
+        "sd_left": 3.7702942004578572,
+        "mean_stay": 15.231143552311435,
+        "sd_stay": 3.6395112692350597,
+        "median_left": 14.0,
+        "median_stay": 14.0,
+        "mannwhitney_p": 0.36551461755468617,
+        "welch_t_p": 0.6144300580581376,
+        "t": -0.5042445352368612,
+        "rank_biserial": 0.03684882332207473,
+        "cohens_d": -0.036630040395951545
+      },
+      "TrainingTimesLastYear": {
+        "feature": "TrainingTimesLastYear",
+        "n": 1470,
+        "mean_left": 2.6244725738396624,
+        "sd_left": 1.254784165166025,
+        "mean_stay": 2.8329278183292783,
+        "sd_stay": 1.2935853008836335,
+        "median_left": 2.0,
+        "median_stay": 3.0,
+        "mannwhitney_p": 0.04729570730410349,
+        "welch_t_p": 0.020363792126986923,
+        "t": -2.3305222667832277,
+        "rank_biserial": 0.07750982988902233,
+        "cohens_d": -0.16191624122733658
+      },
+      "DailyRate": {
+        "feature": "DailyRate",
+        "n": 1470,
+        "mean_left": 750.3628691983122,
+        "sd_left": 401.89951940778354,
+        "mean_stay": 812.5044606650446,
+        "sd_stay": 403.2083790501571,
+        "median_left": 699.0,
+        "median_stay": 817.0,
+        "mannwhitney_p": 0.029004575546528265,
+        "welch_t_p": 0.03003953821029318,
+        "t": -2.178881682441792,
+        "rank_biserial": 0.08944257941763256,
+        "cohens_d": -0.15419816715130605
+      },
+      "HourlyRate": {
+        "feature": "HourlyRate",
+        "n": 1470,
+        "mean_left": 65.57383966244726,
+        "sd_left": 20.09995760661555,
+        "mean_stay": 65.9521492295215,
+        "sd_stay": 20.380754242917018,
+        "median_left": 66.0,
+        "median_stay": 66.0,
+        "mannwhitney_p": 0.7976302912394753,
+        "welch_t_p": 0.7913500922193029,
+        "t": -0.264768586360621,
+        "rank_biserial": 0.010505747362441475,
+        "cohens_d": -0.0186030639803468
+      },
+      "MonthlyRate": {
+        "feature": "MonthlyRate",
+        "n": 1470,
+        "mean_left": 14559.308016877638,
+        "sd_left": 7208.153263961407,
+        "mean_stay": 14265.779399837795,
+        "sd_stay": 7102.260749340363,
+        "median_left": 14618.0,
+        "median_stay": 14120.0,
+        "mannwhitney_p": 0.5587480971526364,
+        "welch_t_p": 0.5653438280020341,
+        "t": 0.5755021579649623,
+        "rank_biserial": -0.023954472813384475,
+        "cohens_d": 0.04122945822911853
+      }
+    },
+    "bands": {
+      "tenure": {
+        "feature": "YearsAtCompany",
+        "bands": [
+          {
+            "band": "0-1",
+            "n": 44,
+            "left": 16,
+            "rate": 0.36363636363636365
+          },
+          {
+            "band": "2-3",
+            "n": 298,
+            "left": 86,
+            "rate": 0.28859060402684567
+          },
+          {
+            "band": "4-5",
+            "n": 238,
+            "left": 39,
+            "rate": 0.1638655462184874
+          },
+          {
+            "band": "6-10",
+            "n": 524,
+            "left": 58,
+            "rate": 0.11068702290076336
+          },
+          {
+            "band": "11-20",
+            "n": 273,
+            "left": 29,
+            "rate": 0.10622710622710622
+          },
+          {
+            "band": "21+",
+            "n": 93,
+            "left": 9,
+            "rate": 0.0967741935483871
+          }
+        ]
+      },
+      "distance": {
+        "feature": "DistanceFromHome",
+        "bands": [
+          {
+            "band": "1-5",
+            "n": 567,
+            "left": 77,
+            "rate": 0.13580246913580246
+          },
+          {
+            "band": "6-10",
+            "n": 373,
+            "left": 56,
+            "rate": 0.15013404825737264
+          },
+          {
+            "band": "11-15",
+            "n": 175,
+            "left": 31,
+            "rate": 0.17714285714285713
+          },
+          {
+            "band": "16-20",
+            "n": 126,
+            "left": 24,
+            "rate": 0.19047619047619047
+          },
+          {
+            "band": "21-29",
+            "n": 229,
+            "left": 49,
+            "rate": 0.21397379912663755
+          }
+        ]
+      },
+      "promotion": {
+        "feature": "YearsSinceLastPromotion",
+        "bands": [
+          {
+            "band": "0-1",
+            "n": 581,
+            "left": 110,
+            "rate": 0.18932874354561102
+          },
+          {
+            "band": "2-3",
+            "n": 516,
+            "left": 76,
+            "rate": 0.14728682170542637
+          },
+          {
+            "band": "4-6",
+            "n": 158,
+            "left": 16,
+            "rate": 0.10126582278481013
+          },
+          {
+            "band": "7-10",
+            "n": 143,
+            "left": 26,
+            "rate": 0.18181818181818182
+          },
+          {
+            "band": "11+",
+            "n": 72,
+            "left": 9,
+            "rate": 0.125
+          }
+        ]
+      },
+      "age": {
+        "feature": "Age",
+        "bands": [
+          {
+            "band": "18-25",
+            "n": 97,
+            "left": 38,
+            "rate": 0.3917525773195876
+          },
+          {
+            "band": "26-30",
+            "n": 229,
+            "left": 53,
+            "rate": 0.2314410480349345
+          },
+          {
+            "band": "31-35",
+            "n": 325,
+            "left": 59,
+            "rate": 0.18153846153846154
+          },
+          {
+            "band": "36-40",
+            "n": 297,
+            "left": 30,
+            "rate": 0.10101010101010101
+          },
+          {
+            "band": "41-50",
+            "n": 349,
+            "left": 34,
+            "rate": 0.09742120343839542
+          },
+          {
+            "band": "51-60",
+            "n": 173,
+            "left": 23,
+            "rate": 0.1329479768786127
+          }
+        ]
+      },
+      "income": {
+        "feature": "MonthlyIncome",
+        "bands": [
+          {
+            "band": "<3k",
+            "n": 395,
+            "left": 113,
+            "rate": 0.28607594936708863
+          },
+          {
+            "band": "3-5k",
+            "n": 354,
+            "left": 50,
+            "rate": 0.14124293785310735
+          },
+          {
+            "band": "5-8k",
+            "n": 340,
+            "left": 34,
+            "rate": 0.1
+          },
+          {
+            "band": "8-12k",
+            "n": 186,
+            "left": 29,
+            "rate": 0.15591397849462366
+          },
+          {
+            "band": "12k+",
+            "n": 195,
+            "left": 11,
+            "rate": 0.05641025641025641
+          }
+        ]
+      }
+    },
+    "rates": {
+      "JobRole": [
+        {
+          "level": "Sales Representative",
+          "n": 83,
+          "left": 33,
+          "rate": 0.39759036144578314
+        },
+        {
+          "level": "Laboratory Technician",
+          "n": 259,
+          "left": 62,
+          "rate": 0.23938223938223938
+        },
+        {
+          "level": "Human Resources",
+          "n": 52,
+          "left": 12,
+          "rate": 0.23076923076923078
+        },
+        {
+          "level": "Sales Executive",
+          "n": 326,
+          "left": 57,
+          "rate": 0.17484662576687116
+        },
+        {
+          "level": "Research Scientist",
+          "n": 292,
+          "left": 47,
+          "rate": 0.16095890410958905
+        },
+        {
+          "level": "Manufacturing Director",
+          "n": 145,
+          "left": 10,
+          "rate": 0.06896551724137931
+        },
+        {
+          "level": "Healthcare Representative",
+          "n": 131,
+          "left": 9,
+          "rate": 0.06870229007633588
+        },
+        {
+          "level": "Manager",
+          "n": 102,
+          "left": 5,
+          "rate": 0.049019607843137254
+        },
+        {
+          "level": "Research Director",
+          "n": 80,
+          "left": 2,
+          "rate": 0.025
+        }
+      ],
+      "Department": [
+        {
+          "level": "Sales",
+          "n": 446,
+          "left": 92,
+          "rate": 0.2062780269058296
+        },
+        {
+          "level": "Human Resources",
+          "n": 63,
+          "left": 12,
+          "rate": 0.19047619047619047
+        },
+        {
+          "level": "Research & Development",
+          "n": 961,
+          "left": 133,
+          "rate": 0.1383975026014568
+        }
+      ],
+      "MaritalStatus": [
+        {
+          "level": "Single",
+          "n": 470,
+          "left": 120,
+          "rate": 0.2553191489361702
+        },
+        {
+          "level": "Married",
+          "n": 673,
+          "left": 84,
+          "rate": 0.12481426448736999
+        },
+        {
+          "level": "Divorced",
+          "n": 327,
+          "left": 33,
+          "rate": 0.10091743119266056
+        }
+      ],
+      "OverTime": [
+        {
+          "level": "Yes",
+          "n": 416,
+          "left": 127,
+          "rate": 0.30528846153846156
+        },
+        {
+          "level": "No",
+          "n": 1054,
+          "left": 110,
+          "rate": 0.10436432637571158
+        }
+      ],
+      "BusinessTravel": [
+        {
+          "level": "Travel_Frequently",
+          "n": 277,
+          "left": 69,
+          "rate": 0.2490974729241877
+        },
+        {
+          "level": "Travel_Rarely",
+          "n": 1043,
+          "left": 156,
+          "rate": 0.14956855225311602
+        },
+        {
+          "level": "Non-Travel",
+          "n": 150,
+          "left": 12,
+          "rate": 0.08
+        }
+      ]
+    },
+    "odds_ratios": {
+      "OverTime=Yes": {
+        "level": "Yes",
+        "a": 127,
+        "b": 289,
+        "c": 110,
+        "d": 944,
+        "or": 3.7712488203837684,
+        "lo": 2.829550038377129,
+        "hi": 5.026353120584179
+      },
+      "MaritalStatus=Single": {
+        "level": "Single",
+        "a": 120,
+        "b": 350,
+        "c": 117,
+        "d": 883,
+        "or": 2.5875457875457877,
+        "lo": 1.9494737464515233,
+        "hi": 3.434461846348564
+      },
+      "JobSatisfaction=1": {
+        "level": "1",
+        "a": 66,
+        "b": 223,
+        "c": 171,
+        "d": 1010,
+        "or": 1.7480922036031783,
+        "lo": 1.2707629525134023,
+        "hi": 2.404717847852105
+      },
+      "WorkLifeBalance=1": {
+        "level": "1",
+        "a": 25,
+        "b": 55,
+        "c": 212,
+        "d": 1178,
+        "or": 2.525728987993139,
+        "lo": 1.5398160033574944,
+        "hi": 4.142902078481504
+      }
+    }
+  },
+  "hr": {
+    "dataset": "hr",
+    "description": "Real anonymized company HRIS export (HR_comma_sep), 14,995 employees",
+    "overall": {
+      "n": 14995,
+      "left": 3567,
+      "stayed": 11428,
+      "rate": 0.23787929309769923
+    },
+    "missing": {},
+    "tests": {
+      "department": {
+        "feature": "department",
+        "n": 14995,
+        "chi2": 86.65612720567492,
+        "dof": 9,
+        "p": 7.61343051995717e-15,
+        "cramers_v": 0.076019744020037,
+        "rates_by_level": {
+          "hr": 0.29093369418132614,
+          "accounting": 0.26597131681877445,
+          "technical": 0.25625,
+          "support": 0.2489905787348587,
+          "sales": 0.2441972920696325,
+          "marketing": 0.2365967365967366,
+          "IT": 0.22249388753056235,
+          "product_mng": 0.21951219512195122,
+          "RandD": 0.15374841168996187,
+          "management": 0.14444444444444443
+        },
+        "counts": {
+          "0": {
+            "IT": 954,
+            "RandD": 666,
+            "accounting": 563,
+            "hr": 524,
+            "management": 539,
+            "marketing": 655,
+            "product_mng": 704,
+            "sales": 3126,
+            "support": 1674,
+            "technical": 2023
+          },
+          "1": {
+            "IT": 273,
+            "RandD": 121,
+            "accounting": 204,
+            "hr": 215,
+            "management": 91,
+            "marketing": 203,
+            "product_mng": 198,
+            "sales": 1010,
+            "support": 555,
+            "technical": 697
+          }
+        }
+      },
+      "salary_band": {
+        "feature": "salary_band",
+        "n": 14995,
+        "chi2": 380.3141143976136,
+        "dof": 2,
+        "p": 2.6051897668176363e-83,
+        "cramers_v": 0.1592568005958288,
+        "rates_by_level": {
+          "low": 0.2965951046082319,
+          "medium": 0.20418929402637703,
+          "high": 0.06628940986257073
+        },
+        "counts": {
+          "0": {
+            "high": 1155,
+            "low": 5144,
+            "medium": 5129
+          },
+          "1": {
+            "high": 82,
+            "low": 2169,
+            "medium": 1316
+          }
+        }
+      },
+      "promotion_last_5years": {
+        "feature": "promotion_last_5years",
+        "n": 14995,
+        "chi2": 56.16576268934907,
+        "dof": 1,
+        "p": 6.661142476712747e-14,
+        "cramers_v": 0.06120157451839875,
+        "rates_by_level": {
+          "0": 0.2417552466612156,
+          "1": 0.05956112852664577
+        },
+        "counts": {
+          "0": {
+            "0": 11128,
+            "1": 300
+          },
+          "1": {
+            "0": 3548,
+            "1": 19
+          }
+        }
+      },
+      "Work_accident": {
+        "feature": "Work_accident",
+        "n": 14995,
+        "chi2": 356.87978769577717,
+        "dof": 1,
+        "p": 1.3458892498799738e-79,
+        "cramers_v": 0.15427222417781303,
+        "rates_by_level": {
+          "0": 0.2649306096990488,
+          "1": 0.07791609036422315
+        },
+        "counts": {
+          "0": {
+            "0": 9428,
+            "1": 2000
+          },
+          "1": {
+            "0": 3398,
+            "1": 169
+          }
+        }
+      },
+      "number_project": {
+        "feature": "number_project",
+        "n": 14995,
+        "chi2": 5368.579512851599,
+        "dof": 5,
+        "p": 0.0,
+        "cramers_v": 0.5983516043299636,
+        "rates_by_level": {
+          "7": 1.0,
+          "2": 0.6559094719195306,
+          "6": 0.5579216354344123,
+          "5": 0.2213768115942029,
+          "4": 0.09369988545246277,
+          "3": 0.01775585696670777
+        },
+        "counts": {
+          "0": {
+            "2": 821,
+            "3": 3983,
+            "4": 3956,
+            "5": 2149,
+            "6": 519,
+            "7": 0
+          },
+          "1": {
+            "2": 1565,
+            "3": 72,
+            "4": 409,
+            "5": 611,
+            "6": 655,
+            "7": 255
+          }
+        }
+      },
+      "satisfaction_level": {
+        "feature": "satisfaction_level",
+        "n": 14995,
+        "mean_left": 0.4401401738155313,
+        "sd_left": 0.2639788577299421,
+        "mean_stay": 0.666809590479524,
+        "sd_stay": 0.21710375451971908,
+        "median_left": 0.41,
+        "median_stay": 0.69,
+        "mannwhitney_p": 0.0,
+        "welch_t_p": 0.0,
+        "t": -46.59955387996372,
+        "rank_biserial": 0.4957530817387519,
+        "cohens_d": -0.9892888675488122
+      },
+      "last_evaluation": {
+        "feature": "last_evaluation",
+        "n": 14995,
+        "mean_left": 0.7181412952060555,
+        "sd_left": 0.1976876823133473,
+        "mean_stay": 0.7154733986699335,
+        "sd_stay": 0.1620049564850391,
+        "median_left": 0.79,
+        "median_stay": 0.71,
+        "mannwhitney_p": 0.7724952828404533,
+        "welch_t_p": 0.46368167889527717,
+        "t": 0.7328526478389142,
+        "rank_biserial": 0.003201036138153923,
+        "cohens_d": 0.015586471863554848
+      },
+      "average_montly_hours": {
+        "feature": "average_montly_hours",
+        "n": 14995,
+        "mean_left": 207.4255677039529,
+        "sd_left": 61.21488311524926,
+        "mean_stay": 199.0602030101505,
+        "sd_stay": 45.68273115925357,
+        "median_left": 224.0,
+        "median_stay": 198.0,
+        "mannwhitney_p": 1.2625237243399885e-08,
+        "welch_t_p": 5.86990657278207e-14,
+        "t": 7.533155610699146,
+        "rank_biserial": -0.0630195127642561,
+        "cohens_d": 0.1679190711256897
+      },
+      "time_spend_company": {
+        "feature": "time_spend_company",
+        "n": 14995,
+        "mean_left": 3.8766470423324924,
+        "sd_left": 0.9778426783469978,
+        "mean_stay": 3.3800315015750786,
+        "sd_stay": 1.5623480428752659,
+        "median_left": 4.0,
+        "median_stay": 3.0,
+        "mannwhitney_p": 1.2546669601054262e-237,
+        "welch_t_p": 1.7002227031482954e-110,
+        "t": 22.628342713476886,
+        "rank_biserial": -0.346689562540925,
+        "cohens_d": 0.3436978482986354
+      }
+    },
+    "bands": {
+      "satisfaction": {
+        "feature": "satisfaction_level",
+        "bands": [
+          {
+            "band": "0-.2",
+            "n": 1408,
+            "left": 919,
+            "rate": 0.6526988636363636
+          },
+          {
+            "band": ".2-.4",
+            "n": 1505,
+            "left": 645,
+            "rate": 0.42857142857142855
+          },
+          {
+            "band": ".4-.6",
+            "n": 3620,
+            "left": 1029,
+            "rate": 0.28425414364640883
+          },
+          {
+            "band": ".6-.8",
+            "n": 4238,
+            "left": 397,
+            "rate": 0.09367626238791883
+          },
+          {
+            "band": ".8-1",
+            "n": 4224,
+            "left": 577,
+            "rate": 0.13660037878787878
+          }
+        ]
+      },
+      "evaluation": {
+        "feature": "last_evaluation",
+        "bands": [
+          {
+            "band": "0-.4",
+            "n": 179,
+            "left": 0,
+            "rate": 0.0
+          },
+          {
+            "band": ".4-.6",
+            "n": 4561,
+            "left": 1606,
+            "rate": 0.35211576408682305
+          },
+          {
+            "band": ".6-.75",
+            "n": 3345,
+            "left": 85,
+            "rate": 0.025411061285500747
+          },
+          {
+            "band": ".75-.9",
+            "n": 3922,
+            "left": 920,
+            "rate": 0.2345741968383478
+          },
+          {
+            "band": ".9-1",
+            "n": 2988,
+            "left": 956,
+            "rate": 0.31994645247657294
+          }
+        ]
+      },
+      "hours": {
+        "feature": "average_montly_hours",
+        "bands": [
+          {
+            "band": "<150",
+            "n": 2945,
+            "left": 1059,
+            "rate": 0.35959252971137523
+          },
+          {
+            "band": "150-200",
+            "n": 4519,
+            "left": 595,
+            "rate": 0.13166629785350742
+          },
+          {
+            "band": "200-250",
+            "n": 4230,
+            "left": 647,
+            "rate": 0.15295508274231678
+          },
+          {
+            "band": "250-300",
+            "n": 3131,
+            "left": 1096,
+            "rate": 0.3500479080166081
+          },
+          {
+            "band": "300+",
+            "n": 170,
+            "left": 170,
+            "rate": 1.0
+          }
+        ]
+      },
+      "tenure": {
+        "feature": "time_spend_company",
+        "bands": [
+          {
+            "band": "0-2",
+            "n": 0,
+            "left": 0,
+            "rate": 0.0
+          },
+          {
+            "band": "3",
+            "n": 3244,
+            "left": 53,
+            "rate": 0.016337854500616523
+          },
+          {
+            "band": "4",
+            "n": 6441,
+            "left": 1584,
+            "rate": 0.24592454587796925
+          },
+          {
+            "band": "5",
+            "n": 2556,
+            "left": 889,
+            "rate": 0.34780907668231614
+          },
+          {
+            "band": "6-7",
+            "n": 2190,
+            "left": 1041,
+            "rate": 0.47534246575342465
+          },
+          {
+            "band": "8-10",
+            "n": 564,
+            "left": 0,
+            "rate": 0.0
+          }
+        ]
+      }
+    },
+    "rates": {
+      "department": [
+        {
+          "level": "hr",
+          "n": 739,
+          "left": 215,
+          "rate": 0.29093369418132614
+        },
+        {
+          "level": "accounting",
+          "n": 767,
+          "left": 204,
+          "rate": 0.26597131681877445
+        },
+        {
+          "level": "technical",
+          "n": 2720,
+          "left": 697,
+          "rate": 0.25625
+        },
+        {
+          "level": "support",
+          "n": 2229,
+          "left": 555,
+          "rate": 0.2489905787348587
+        },
+        {
+          "level": "sales",
+          "n": 4136,
+          "left": 1010,
+          "rate": 0.2441972920696325
+        },
+        {
+          "level": "marketing",
+          "n": 858,
+          "left": 203,
+          "rate": 0.2365967365967366
+        },
+        {
+          "level": "IT",
+          "n": 1227,
+          "left": 273,
+          "rate": 0.22249388753056235
+        },
+        {
+          "level": "product_mng",
+          "n": 902,
+          "left": 198,
+          "rate": 0.21951219512195122
+        },
+        {
+          "level": "RandD",
+          "n": 787,
+          "left": 121,
+          "rate": 0.15374841168996187
+        },
+        {
+          "level": "management",
+          "n": 630,
+          "left": 91,
+          "rate": 0.14444444444444443
+        }
+      ],
+      "salary_band": [
+        {
+          "level": "low",
+          "n": 7313,
+          "left": 2169,
+          "rate": 0.2965951046082319
+        },
+        {
+          "level": "medium",
+          "n": 6445,
+          "left": 1316,
+          "rate": 0.20418929402637703
+        },
+        {
+          "level": "high",
+          "n": 1237,
+          "left": 82,
+          "rate": 0.06628940986257073
+        }
+      ]
+    },
+    "odds_ratios": {
+      "salary=low": {
+        "level": "low",
+        "a": 2169,
+        "b": 5144,
+        "c": 1398,
+        "d": 6284,
+        "or": 1.8953420460689232,
+        "lo": 1.7554695662057338,
+        "hi": 2.046359299387436
+      },
+      "no promotion (promotion_last_5years=0)": {
+        "level": "0",
+        "a": 3548,
+        "b": 11128,
+        "c": 19,
+        "d": 300,
+        "or": 5.034242687956412,
+        "lo": 3.1615123040338915,
+        "hi": 8.016289991630194
+      },
+      "work accident": {
+        "level": "1",
+        "a": 169,
+        "b": 2000,
+        "c": 3398,
+        "d": 9428,
+        "or": 0.23445144202472043,
+        "lo": 0.1994203097425829,
+        "hi": 0.2756363117599423
+      }
+    }
+  },
+  "av": {
+    "dataset": "av",
+    "description": "Real Analytics Vidhya data-science candidates (job-change intent), 18,359 rows",
+    "overall": {
+      "n": 18359,
+      "left": 2425,
+      "stayed": 15934,
+      "rate": 0.13208780434664197
+    },
+    "missing": {
+      "gender": 4098,
+      "enrolled_university": 342,
+      "education_level": 457,
+      "major_discipline": 2838,
+      "experience": 59,
+      "company_size": 4779,
+      "company_type": 5039,
+      "last_new_job": 367,
+      "experience_num": 59
+    },
+    "tests": {
+      "gender": {
+        "feature": "gender",
+        "n": 14261,
+        "chi2": 9.283973826536187,
+        "dof": 2,
+        "p": 0.009638527670809707,
+        "cramers_v": 0.025514787976367973,
+        "rates_by_level": {
+          "Other": 0.15343915343915343,
+          "Female": 0.15067340067340068,
+          "Male": 0.12247749146227879
+        },
+        "counts": {
+          "0": {
+            "Female": 1009,
+            "Male": 11306,
+            "Other": 160
+          },
+          "1": {
+            "Female": 179,
+            "Male": 1578,
+            "Other": 29
+          }
+        }
+      },
+      "relevent_experience": {
+        "feature": "relevent_experience",
+        "n": 18359,
+        "chi2": 100.27441656909318,
+        "dof": 1,
+        "p": 1.3267956813314173e-23,
+        "cramers_v": 0.07390444517901032,
+        "rates_by_level": {
+          "No relevent experience": 0.17446987192945623,
+          "Has relevent experience": 0.11724036481318034
+        },
+        "counts": {
+          "0": {
+            "Has relevent experience": 12002,
+            "No relevent experience": 3932
+          },
+          "1": {
+            "Has relevent experience": 1594,
+            "No relevent experience": 831
+          }
+        }
+      },
+      "enrolled_university": {
+        "feature": "enrolled_university",
+        "n": 18017,
+        "chi2": 127.79273741645113,
+        "dof": 2,
+        "p": 1.7789332654895442e-28,
+        "cramers_v": 0.08421934264366883,
+        "rates_by_level": {
+          "Full time course": 0.19046124882334484,
+          "Part time course": 0.14859094790777114,
+          "no_enrollment": 0.11626034116699611
+        },
+        "counts": {
+          "0": {
+            "Full time course": 2580,
+            "Part time course": 997,
+            "no_enrollment": 12071
+          },
+          "1": {
+            "Full time course": 607,
+            "Part time course": 174,
+            "no_enrollment": 1588
+          }
+        }
+      },
+      "education_level": {
+        "feature": "education_level",
+        "n": 17902,
+        "chi2": 29.157280129417956,
+        "dof": 4,
+        "p": 7.262842220434136e-06,
+        "cramers_v": 0.04035735808711659,
+        "rates_by_level": {
+          "Graduate": 0.14226019128981335,
+          "Masters": 0.11877749479046075,
+          "High School": 0.1186023622047244,
+          "Phd": 0.11546840958605664,
+          "Primary School": 0.07739938080495357
+        },
+        "counts": {
+          "0": {
+            "Graduate": 9237,
+            "High School": 1791,
+            "Masters": 3806,
+            "Phd": 406,
+            "Primary School": 298
+          },
+          "1": {
+            "Graduate": 1532,
+            "High School": 241,
+            "Masters": 513,
+            "Phd": 53,
+            "Primary School": 25
+          }
+        }
+      },
+      "major_discipline": {
+        "feature": "major_discipline",
+        "n": 15521,
+        "chi2": 7.069271513224467,
+        "dof": 5,
+        "p": 0.21553926861001507,
+        "cramers_v": 0.021341624857633867,
+        "rates_by_level": {
+          "STEM": 0.13662833017906537,
+          "Humanities": 0.13517441860465115,
+          "Business Degree": 0.1270358306188925,
+          "Other": 0.10787172011661808,
+          "Arts": 0.10460251046025104,
+          "No Major": 0.0970873786407767
+        },
+        "counts": {
+          "0": {
+            "Arts": 214,
+            "Business Degree": 268,
+            "Humanities": 595,
+            "No Major": 186,
+            "Other": 306,
+            "STEM": 11861
+          },
+          "1": {
+            "Arts": 25,
+            "Business Degree": 39,
+            "Humanities": 93,
+            "No Major": 20,
+            "Other": 37,
+            "STEM": 1877
+          }
+        }
+      },
+      "company_size": {
+        "feature": "company_size",
+        "n": 13580,
+        "chi2": 16.738436544609083,
+        "dof": 7,
+        "p": 0.019162917486513036,
+        "cramers_v": 0.035108118870835,
+        "rates_by_level": {
+          "10/49": 0.13437926330150068,
+          "5000-9999": 0.12521150592216582,
+          "10000+": 0.12084148727984344,
+          "500-999": 0.1164079822616408,
+          "1000-4999": 0.1093638313080772,
+          "<10": 0.10735294117647058,
+          "100-500": 0.10378057820607858,
+          "50-99": 0.10032051282051282
+        },
+        "counts": {
+          "0": {
+            "10/49": 1269,
+            "100-500": 2418,
+            "1000-4999": 1246,
+            "10000+": 1797,
+            "50-99": 2807,
+            "500-999": 797,
+            "5000-9999": 517,
+            "<10": 1214
+          },
+          "1": {
+            "10/49": 197,
+            "100-500": 280,
+            "1000-4999": 153,
+            "10000+": 247,
+            "50-99": 313,
+            "500-999": 105,
+            "5000-9999": 74,
+            "<10": 146
+          }
+        }
+      },
+      "company_type": {
+        "feature": "company_type",
+        "n": 13320,
+        "chi2": 26.55805812506518,
+        "dof": 5,
+        "p": 6.953189749635574e-05,
+        "cramers_v": 0.0446525274490423,
+        "rates_by_level": {
+          "Other": 0.15966386554621848,
+          "Public Sector": 0.15261044176706828,
+          "NGO": 0.12921348314606743,
+          "Early Stage Startup": 0.12714776632302405,
+          "Pvt Ltd": 0.10914336881902298,
+          "Funded Startup": 0.09248554913294797
+        },
+        "counts": {
+          "0": {
+            "Early Stage Startup": 508,
+            "Funded Startup": 942,
+            "NGO": 465,
+            "Other": 100,
+            "Public Sector": 844,
+            "Pvt Ltd": 8954
+          },
+          "1": {
+            "Early Stage Startup": 74,
+            "Funded Startup": 96,
+            "NGO": 69,
+            "Other": 19,
+            "Public Sector": 152,
+            "Pvt Ltd": 1097
+          }
+        }
+      },
+      "last_new_job": {
+        "feature": "last_new_job",
+        "n": 17992,
+        "chi2": 20.611465898928333,
+        "dof": 5,
+        "p": 0.0009590216415931114,
+        "cramers_v": 0.033846574275733954,
+        "rates_by_level": {
+          "never": 0.14181152790484905,
+          "4": 0.1416184971098266,
+          "2": 0.13721340388007056,
+          "1": 0.13453151843531122,
+          "3": 0.12658227848101267,
+          ">4": 0.1081162024558251
+        },
+        "counts": {
+          "0": {
+            "1": 6549,
+            "2": 2446,
+            "3": 897,
+            "4": 891,
+            ">4": 2978,
+            "never": 1876
+          },
+          "1": {
+            "1": 1018,
+            "2": 389,
+            "3": 130,
+            "4": 147,
+            ">4": 361,
+            "never": 310
+          }
+        }
+      },
+      "city_development_index": {
+        "feature": "city_development_index",
+        "n": 18359,
+        "mean_left": 0.8088119587628867,
+        "sd_left": 0.13158936442785318,
+        "mean_stay": 0.8529726371281537,
+        "sd_stay": 0.10534479469113514,
+        "median_left": 0.89,
+        "median_stay": 0.91,
+        "mannwhitney_p": 2.621437840284362e-43,
+        "welch_t_p": 7.367321314516247e-54,
+        "t": -15.774701103402874,
+        "rank_biserial": 0.17149227677572043,
+        "cohens_d": -0.4045037719503711
+      },
+      "training_hours": {
+        "feature": "training_hours",
+        "n": 18359,
+        "mean_left": 65.16,
+        "sd_left": 60.743026871661186,
+        "mean_stay": 66.01148487510983,
+        "sd_stay": 60.908039689605786,
+        "median_left": 47.0,
+        "median_stay": 47.0,
+        "mannwhitney_p": 0.3896705091797641,
+        "welch_t_p": 0.5203590391460916,
+        "t": -0.6428627826658736,
+        "rank_biserial": 0.010825453966684773,
+        "cohens_d": -0.01398484082999232
+      },
+      "experience_num": {
+        "feature": "experience_num",
+        "n": 18300,
+        "mean_left": 8.998963945296312,
+        "sd_left": 6.502670309062874,
+        "mean_stay": 10.728520173726947,
+        "sd_stay": 6.622814916706836,
+        "median_left": 7.0,
+        "median_stay": 10.0,
+        "mannwhitney_p": 1.0019074421995845e-35,
+        "welch_t_p": 3.261218991082455e-33,
+        "t": -12.143721933020954,
+        "rank_biserial": 0.15670189465691586,
+        "cohens_d": -0.26177226159927863
+      },
+      "experience_cat": {
+        "feature": "experience_cat",
+        "n": 18300,
+        "chi2": 196.26319776911765,
+        "dof": 21,
+        "p": 1.965820323112401e-30,
+        "cramers_v": 0.10356044083247361,
+        "rates_by_level": {
+          "<1": 0.24278846153846154,
+          "1": 0.23893805309734514,
+          "2": 0.17237903225806453,
+          "4": 0.1688,
+          "3": 0.16479723899913717,
+          "7": 0.1463157894736842,
+          "5": 0.14056531703590527,
+          "6": 0.136,
+          "14": 0.12458471760797342,
+          "11": 0.12443778110944528,
+          "10": 0.12409513960703206,
+          "9": 0.1205311542390194,
+          "13": 0.11650485436893204,
+          "8": 0.11390728476821192,
+          "15": 0.11079136690647481,
+          "20": 0.1095890410958904,
+          "19": 0.10714285714285714,
+          "12": 0.10462776659959759,
+          "16": 0.10382513661202186,
+          "17": 0.09798270893371758,
+          ">20": 0.09601396566773349,
+          "18": 0.09090909090909091
+        },
+        "counts": {
+          "0": {
+            "<1": 315,
+            "1": 344,
+            "2": 821,
+            "3": 968,
+            "4": 1039,
+            "5": 1125,
+            "6": 972,
+            "7": 811,
+            "8": 669,
+            "9": 861,
+            "10": 847,
+            "11": 584,
+            "12": 445,
+            "13": 364,
+            "14": 527,
+            "15": 618,
+            "16": 492,
+            "17": 313,
+            "18": 260,
+            "19": 275,
+            "20": 130,
+            ">20": 3107
+          },
+          "1": {
+            "<1": 101,
+            "1": 108,
+            "2": 171,
+            "3": 191,
+            "4": 211,
+            "5": 184,
+            "6": 153,
+            "7": 139,
+            "8": 86,
+            "9": 118,
+            "10": 120,
+            "11": 83,
+            "12": 52,
+            "13": 48,
+            "14": 75,
+            "15": 77,
+            "16": 57,
+            "17": 34,
+            "18": 26,
+            "19": 33,
+            "20": 16,
+            ">20": 330
+          }
+        }
+      }
+    },
+    "bands": {
+      "cdi": {
+        "feature": "city_development_index",
+        "bands": [
+          {
+            "band": "0-.6",
+            "n": 448,
+            "left": 110,
+            "rate": 0.24553571428571427
+          },
+          {
+            "band": ".6-.7",
+            "n": 2755,
+            "left": 615,
+            "rate": 0.22323049001814882
+          },
+          {
+            "band": ".7-.8",
+            "n": 1410,
+            "left": 214,
+            "rate": 0.15177304964539007
+          },
+          {
+            "band": ".8-.9",
+            "n": 3749,
+            "left": 377,
+            "rate": 0.10056014937316618
+          },
+          {
+            "band": ".9-1",
+            "n": 9997,
+            "left": 1109,
+            "rate": 0.1109332799839952
+          }
+        ]
+      },
+      "training": {
+        "feature": "training_hours",
+        "bands": [
+          {
+            "band": "0-20",
+            "n": 3688,
+            "left": 502,
+            "rate": 0.136117136659436
+          },
+          {
+            "band": "21-40",
+            "n": 4055,
+            "left": 534,
+            "rate": 0.13168927250308263
+          },
+          {
+            "band": "41-60",
+            "n": 3346,
+            "left": 449,
+            "rate": 0.13419007770472205
+          },
+          {
+            "band": "61-80",
+            "n": 1876,
+            "left": 255,
+            "rate": 0.13592750533049042
+          },
+          {
+            "band": "81+",
+            "n": 1690,
+            "left": 200,
+            "rate": 0.11834319526627218
+          }
+        ]
+      }
+    },
+    "rates": {
+      "education_level": [
+        {
+          "level": "Graduate",
+          "n": 10769,
+          "left": 1532,
+          "rate": 0.14226019128981335
+        },
+        {
+          "level": "Masters",
+          "n": 4319,
+          "left": 513,
+          "rate": 0.11877749479046075
+        },
+        {
+          "level": "High School",
+          "n": 2032,
+          "left": 241,
+          "rate": 0.1186023622047244
+        },
+        {
+          "level": "Phd",
+          "n": 459,
+          "left": 53,
+          "rate": 0.11546840958605664
+        },
+        {
+          "level": "Primary School",
+          "n": 323,
+          "left": 25,
+          "rate": 0.07739938080495357
+        }
+      ],
+      "company_type": [
+        {
+          "level": "Other",
+          "n": 119,
+          "left": 19,
+          "rate": 0.15966386554621848
+        },
+        {
+          "level": "Public Sector",
+          "n": 996,
+          "left": 152,
+          "rate": 0.15261044176706828
+        },
+        {
+          "level": "NGO",
+          "n": 534,
+          "left": 69,
+          "rate": 0.12921348314606743
+        },
+        {
+          "level": "Early Stage Startup",
+          "n": 582,
+          "left": 74,
+          "rate": 0.12714776632302405
+        },
+        {
+          "level": "Pvt Ltd",
+          "n": 10051,
+          "left": 1097,
+          "rate": 0.10914336881902298
+        },
+        {
+          "level": "Funded Startup",
+          "n": 1038,
+          "left": 96,
+          "rate": 0.09248554913294797
+        }
+      ],
+      "relevent_experience": [
+        {
+          "level": "No relevent experience",
+          "n": 4763,
+          "left": 831,
+          "rate": 0.17446987192945623
+        },
+        {
+          "level": "Has relevent experience",
+          "n": 13596,
+          "left": 1594,
+          "rate": 0.11724036481318034
+        }
+      ],
+      "experience_cat": [
+        {
+          "level": "<1",
+          "n": 416,
+          "left": 101,
+          "rate": 0.24278846153846154
+        },
+        {
+          "level": "1",
+          "n": 452,
+          "left": 108,
+          "rate": 0.23893805309734514
+        },
+        {
+          "level": "2",
+          "n": 992,
+          "left": 171,
+          "rate": 0.17237903225806453
+        },
+        {
+          "level": "4",
+          "n": 1250,
+          "left": 211,
+          "rate": 0.1688
+        },
+        {
+          "level": "3",
+          "n": 1159,
+          "left": 191,
+          "rate": 0.16479723899913717
+        },
+        {
+          "level": "7",
+          "n": 950,
+          "left": 139,
+          "rate": 0.1463157894736842
+        },
+        {
+          "level": "5",
+          "n": 1309,
+          "left": 184,
+          "rate": 0.14056531703590527
+        },
+        {
+          "level": "6",
+          "n": 1125,
+          "left": 153,
+          "rate": 0.136
+        },
+        {
+          "level": "14",
+          "n": 602,
+          "left": 75,
+          "rate": 0.12458471760797342
+        },
+        {
+          "level": "11",
+          "n": 667,
+          "left": 83,
+          "rate": 0.12443778110944528
+        },
+        {
+          "level": "10",
+          "n": 967,
+          "left": 120,
+          "rate": 0.12409513960703206
+        },
+        {
+          "level": "9",
+          "n": 979,
+          "left": 118,
+          "rate": 0.1205311542390194
+        },
+        {
+          "level": "13",
+          "n": 412,
+          "left": 48,
+          "rate": 0.11650485436893204
+        },
+        {
+          "level": "8",
+          "n": 755,
+          "left": 86,
+          "rate": 0.11390728476821192
+        },
+        {
+          "level": "15",
+          "n": 695,
+          "left": 77,
+          "rate": 0.11079136690647481
+        },
+        {
+          "level": "20",
+          "n": 146,
+          "left": 16,
+          "rate": 0.1095890410958904
+        },
+        {
+          "level": "19",
+          "n": 308,
+          "left": 33,
+          "rate": 0.10714285714285714
+        },
+        {
+          "level": "12",
+          "n": 497,
+          "left": 52,
+          "rate": 0.10462776659959759
+        },
+        {
+          "level": "16",
+          "n": 549,
+          "left": 57,
+          "rate": 0.10382513661202186
+        },
+        {
+          "level": "17",
+          "n": 347,
+          "left": 34,
+          "rate": 0.09798270893371758
+        },
+        {
+          "level": ">20",
+          "n": 3437,
+          "left": 330,
+          "rate": 0.09601396566773349
+        },
+        {
+          "level": "18",
+          "n": 286,
+          "left": 26,
+          "rate": 0.09090909090909091
+        }
+      ]
+    },
+    "odds_ratios": {
+      "relevent_experience=No": {
+        "level": "No relevent experience",
+        "a": 831,
+        "b": 3932,
+        "c": 1594,
+        "d": 12002,
+        "or": 1.591302774519402,
+        "lo": 1.452497157106707,
+        "hi": 1.7433731335056353
+      },
+      "education=Graduate": {
+        "level": "Graduate",
+        "a": 1532,
+        "b": 9237,
+        "c": 832,
+        "d": 6301,
+        "or": 1.2560703816590468,
+        "lo": 1.147640669149535,
+        "hi": 1.3747445921816936
+      },
+      "last_new_job=never": {
+        "level": "never",
+        "a": 310,
+        "b": 1876,
+        "c": 2045,
+        "d": 13761,
+        "or": 1.1119507248945633,
+        "lo": 0.9775398228364347,
+        "hi": 1.2648430127438695
+      },
+      "gender=female": {
+        "level": "f",
+        "a": 0,
+        "b": 0,
+        "c": 1786,
+        "d": 12475,
+        "or": null,
+        "lo": null,
+        "hi": null
+      }
+    }
+  },
+  "academic": {
+    "dataset": "academic",
+    "description": "Published census of US physics faculty 2011->2017 (Morgan, Way & Clauset 2018)",
+    "overall": {
+      "n": 6793,
+      "left": 1556,
+      "stayed": 5237,
+      "rate": 0.22905932577653468
+    },
+    "missing": {
+      "title_2011": 1776,
+      "place_2011": 1776,
+      "title_2017": 1556,
+      "place_2017": 1556,
+      "sex": 1776
+    },
+    "tests": {
+      "sex": {
+        "feature": "sex",
+        "n": 5017,
+        "chi2": 5.917421348296248,
+        "dof": 2,
+        "p": 0.05188577173164706,
+        "cramers_v": 0.034343471837636294,
+        "rates_by_level": {
+          "M": 0.3164675568048723,
+          "F": 0.27530364372469635,
+          ".": 0.14285714285714285
+        },
+        "counts": {
+          "0": {
+            ".": 6,
+            "F": 537,
+            "M": 2918
+          },
+          "1": {
+            ".": 1,
+            "F": 204,
+            "M": 1351
+          }
+        }
+      },
+      "title_2011": {
+        "feature": "title_2011",
+        "n": 6793,
+        "chi2": 741.4077499458685,
+        "dof": 3,
+        "p": 2.2024491530927303e-160,
+        "cramers_v": 0.3303678320486202,
+        "rates_by_level": {
+          "Full Professor": 0.3404344193817878,
+          "Assistant Professor": 0.3033838973162194,
+          "Associate Professor": 0.2723669309173273,
+          "(new in 2011)": 0.0
+        },
+        "counts": {
+          "0": {
+            "(new in 2011)": 1776,
+            "Assistant Professor": 597,
+            "Associate Professor": 1285,
+            "Full Professor": 1579
+          },
+          "1": {
+            "(new in 2011)": 0,
+            "Assistant Professor": 260,
+            "Associate Professor": 481,
+            "Full Professor": 815
+          }
+        }
+      }
+    },
+    "rates": {
+      "sex": [
+        {
+          "level": "M",
+          "n": 4269,
+          "left": 1351,
+          "rate": 0.3164675568048723
+        },
+        {
+          "level": "F",
+          "n": 741,
+          "left": 204,
+          "rate": 0.27530364372469635
+        }
+      ],
+      "title_2011": [
+        {
+          "level": "Full Professor",
+          "n": 2394,
+          "left": 815,
+          "rate": 0.3404344193817878
+        },
+        {
+          "level": "Assistant Professor",
+          "n": 857,
+          "left": 260,
+          "rate": 0.3033838973162194
+        },
+        {
+          "level": "Associate Professor",
+          "n": 1766,
+          "left": 481,
+          "rate": 0.2723669309173273
+        },
+        {
+          "level": "(new in 2011)",
+          "n": 1776,
+          "left": 0,
+          "rate": 0.0
+        }
+      ]
+    },
+    "odds_ratios": {
+      "sex=F vs M": {
+        "a": 204,
+        "b": 537,
+        "c": 1351,
+        "d": 2918,
+        "or": 0.8205136687494056,
+        "lo": 0.6897345045524821,
+        "hi": 0.9760896057265205
+      },
+      "Assistant vs Associate+": null
+    },
+    "department_stats": {
+      "n_departments": 205,
+      "mean_attrition_frac": 0.3381517065515024,
+      "median_attrition_frac": 0.333333333333,
+      "min": 0.0,
+      "max": 0.9375,
+      "weighted_overall": 0.34642216464022324,
+      "top10": [
+        "California Institute of Technology",
+        "Georgia Institute of Technology",
+        "University of Southern Mississippi",
+        "Temple University",
+        "Oregon Health & Science University",
+        "Queen's University",
+        "Virginia Commonwealth University",
+        "University of Memphis",
+        "Claremont Graduate University",
+        "Kansas State University"
+      ],
+      "bottom10": [
+        "University of Colorado, Denver",
+        "University of Denver",
+        "University of Rhode Island",
+        "Rice University",
+        "University of Massachusetts, Boston",
+        "University of Nevada, Las Vegas",
+        "Boston University",
+        "Santa Clara University",
+        "University of Iowa",
+        "New Jersey Institute of Technology"
+      ]
+    }
+  }
+}

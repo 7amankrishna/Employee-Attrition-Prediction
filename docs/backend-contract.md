@@ -1,5 +1,11 @@
 # Python prediction service handoff
 
+> **Reference implementation available:** [`backend/`](../backend/) contains a working
+> FastAPI service (`app.py`) plus trainer (`train.py`) and contract tests (`test_api.py`)
+> that implement everything described below, including the `/model` and `/evaluation`
+> endpoints from "Further integration work" and a real SHAP `explanation`. See
+> [backend/README.md](../backend/README.md).
+
 ## Current integration
 
 `src/api.js` uses the illustrative formula when `VITE_API_BASE_URL` is unset. When set, it sends `POST {base}/predict` with JSON, rejects non-2xx responses, validates that probability is a number between 0 and 1, and preserves form inputs on errors. Configure CORS for your actual frontend origin. This frontend contains no authentication or secret credentials.
