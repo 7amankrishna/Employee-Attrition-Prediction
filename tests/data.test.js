@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {parseCSV,summary,groups,validateProfile,initialProfile,demoProbability} from '../src/data.js';
+const rows=parseCSV(fs.readFileSync(new URL('../public/data/ibm-hr.csv',import.meta.url),'utf8'));
+test('bundled IBM sample has expected counts and complete required features',()=>{assert.equal(rows.length,1470);assert.equal(summary(rows).left,237);assert.equal(summary(rows).stayed,1233);for(const row of rows)for(const key of Object.keys(initialProfile))assert.notEqual(row[key],undefined);});
+test('overtime cohorts reconcile with the complete sample',()=>{const [no,yes]=groups(rows,'OverTime',['No','Yes']);assert.equal(no.total,1054);assert.equal(yes.total,416);assert.equal(no.left,110);assert.equal(yes.left,127);assert.equal(no.left+yes.left,summary(rows).left);});
+test('empty cohorts have zero rate, never NaN',()=>{assert.deepEqual(summary([]),{total:0,left:0,stayed:0,rate:0});});
+test('profile validates required ranges and promotion/tenure consistency',()=>{assert.deepEqual(validateProfile(initialProfile),{});assert.ok(validateProfile({...initialProfile,MonthlyIncome:''}).MonthlyIncome);assert.ok(validateProfile({...initialProfile,YearsSinceLastPromotion:4}).YearsSinceLastPromotion);assert.ok(validateProfile({...initialProfile,DistanceFromHome:-1}).DistanceFromHome);assert.ok(validateProfile({...initialProfile,YearsAtCompany:1.5}).YearsAtCompany);});
+test('illustrative demo remains bounded and responds to scenario changes',()=>{assert.ok(demoProbability(initialProfile)>demoProbability({...initialProfile,OverTime:'No',JobSatisfaction:4,WorkLifeBalance:4}));for(const level of [1,2,3,4]){const n=demoProbability({...initialProfile,JobSatisfaction:level});assert.ok(n>=0&&n<=100);}});
