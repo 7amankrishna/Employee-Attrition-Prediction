@@ -20,12 +20,19 @@ from app import create_app  # noqa: E402
 
 VALID = {
     "JobRole": "Sales Executive",
+    "Department": "Sales",
+    "BusinessTravel": "Travel_Rarely",
+    "MaritalStatus": "Single",
     "OverTime": "Yes",
+    "Age": 32,
+    "JobLevel": 1,
     "MonthlyIncome": 4000,
     "JobSatisfaction": 2,
     "WorkLifeBalance": 2,
     "YearsAtCompany": 3,
     "YearsSinceLastPromotion": 1,
+    "YearsWithCurrManager": 2,
+    "NumCompaniesWorked": 2,
     "DistanceFromHome": 24,
 }
 
@@ -47,9 +54,10 @@ def test_model_metadata(client):
     assert r.status_code == 200
     body = r.json()
     assert body["model_version"]
-    assert body["features"] == ["JobRole", "OverTime", "MonthlyIncome", "JobSatisfaction",
-                                "WorkLifeBalance", "YearsAtCompany", "YearsSinceLastPromotion",
-                                "DistanceFromHome"]
+    assert body["features"] == ["JobRole", "Department", "BusinessTravel", "MaritalStatus", "OverTime",
+                                "Age", "JobLevel", "MonthlyIncome", "JobSatisfaction", "WorkLifeBalance",
+                                "YearsAtCompany", "YearsSinceLastPromotion", "YearsWithCurrManager",
+                                "NumCompaniesWorked", "DistanceFromHome"]
     assert body["model_type"] in {"logreg", "rf", "xgb"}
 
 
@@ -82,7 +90,7 @@ def test_predict_probability_increases_with_risk(client):
            "MonthlyIncome": 15000, "YearsAtCompany": 15, "YearsSinceLastPromotion": 0}
     high = {**VALID, "OverTime": "Yes", "JobSatisfaction": 1, "WorkLifeBalance": 1,
             "MonthlyIncome": 2000, "YearsAtCompany": 1, "YearsSinceLastPromotion": 1,
-            "DistanceFromHome": 29}
+            "YearsWithCurrManager": 1, "DistanceFromHome": 29}
     p_low = client.post("/predict", json=low).json()["probability"]
     p_high = client.post("/predict", json=high).json()["probability"]
     assert p_high > p_low

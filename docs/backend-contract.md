@@ -1,29 +1,35 @@
 # Python prediction service handoff
 
-> **Reference implementation available:** [`backend/`](../backend/) contains a working
-> FastAPI service (`app.py`) plus trainer (`train.py`) and contract tests (`test_api.py`)
-> that implement everything described below, including the `/model` and `/evaluation`
-> endpoints from "Further integration work" and a real SHAP `explanation`. See
-> [backend/README.md](../backend/README.md).
+> The working reference implementation is in [`backend/`](../backend/): FastAPI,
+> trainer, held-out evaluation, model card, SHAP explanations, and API tests.
 
 ## Current integration
 
-`src/api.js` uses the illustrative formula when `VITE_API_BASE_URL` is unset. When set, it sends `POST {base}/predict` with JSON, rejects non-2xx responses, validates that probability is a number between 0 and 1, and preserves form inputs on errors. Configure CORS for your actual frontend origin. This frontend contains no authentication or secret credentials.
+`src/api.js` uses a local nearest-neighbour similarity estimate against the bundled IBM sample when `VITE_API_BASE_URL` is unset. When configured, it sends `POST {base}/predict`, validates the probability response, and preserves form inputs on errors. Configure CORS for the deployed frontend; this frontend has no authentication or secrets.
 
-Request:
+The contract contains the same 15 fields used by the studio:
 
 ```json
 {
   "JobRole": "Sales Executive",
+  "Department": "Sales",
+  "BusinessTravel": "Travel_Rarely",
+  "MaritalStatus": "Single",
   "OverTime": "Yes",
+  "Age": 32,
+  "JobLevel": 1,
   "MonthlyIncome": 4000,
   "JobSatisfaction": 2,
   "WorkLifeBalance": 2,
   "YearsAtCompany": 3,
   "YearsSinceLastPromotion": 1,
+  "YearsWithCurrManager": 2,
+  "NumCompaniesWorked": 2,
   "DistanceFromHome": 24
 }
 ```
+
+`MonthlyIncome` is monthly USD and `DistanceFromHome` is miles, regardless of the frontend display units. The INR input uses a fixed, clearly disclosed demo conversion; the distance input converts kilometres to miles. Both model values are normalized before sending.
 
 Required response:
 
@@ -35,18 +41,13 @@ Required response:
 }
 ```
 
-The value above is an API format example, not a model result. Probability means P(Attrition=Yes), not predicted time-to-departure. The sample dataset has no defined future prediction window.
+The value is an API format example, not a model result. Probability means P(Attrition=Yes), not predicted time-to-departure; the dataset has no defined prediction window. The optional backend validates categories, ranges, and tenure consistency server-side.
 
-Before connecting: train the model on the same eight features or explicitly update this contract and the UI. Fit preprocessing on training data only. Return consistent category mappings and validate all inputs server-side. Never silently fill missing trained features with arbitrary defaults.
+The browser-only estimate uses 50 weighted nearest IBM records and shrinks toward the dataset-wide rate. It is clearly labeled, but it is not a trained, held-out-validated or calibrated model. The Python backend provides the trained alternative. Both use fictional IBM data: neither has demonstrated accuracy on real employees.
 
-## Further integration work
+## Further work
 
-- Add `/model` metadata and `/evaluation` contracts, then load real held-out metrics and matrix counts.
-- Add a supported explainer endpoint only after selecting and validating the model/explainer combination. Return baseline, output scale (probability or log-odds), contribution values, feature names, model version and explainer name. Do not label arbitrary feature importances as SHAP.
-- Replace the what-if demo formula with two calls to the same model for baseline and scenario. Keep comparisons clearly non-causal.
-- Define and validate probability calibration and risk-band thresholds. Current 30/60 cutoffs are UI demo conventions, not validated operational thresholds.
-- Add API contract tests and timeout handling, then verify all loading/error states with the real service.
-
-## Demonstration formula
-
-The UI-only formula begins at 15 percentage points, adds 23 for overtime, 8 per satisfaction level below 4, 5 per balance level below 4, 7 for income under 4,500, 5 for tenure under 4 years, 0.15 per distance unit, and up to 8 for years since promotion. The total is clamped to 5–92 and rounded. These arbitrary values are for demonstrating interaction, not statistical claims.
+- Validate performance and calibration on consented, representative real data before use beyond education.
+- Add fairness audits, access controls, retention/deletion policies, and security review before handling real employee data.
+- Keep any what-if comparison clearly non-causal; the separate UI explorer is still a formula illustration, not a backend inference.
+- Risk bands are demo conventions, not validated operational thresholds.

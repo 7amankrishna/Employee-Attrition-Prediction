@@ -1,94 +1,37 @@
-# Python backend handoff — reference implementation
+# Python prediction service
 
-This package is the Python side of the handoff described in
-[`docs/backend-contract.md`](../docs/backend-contract.md). `src/api.js` in the
-frontend already isolates the transport: set `VITE_API_BASE_URL` to this
-service's origin and rebuild — no frontend code changes are needed.
+This is the optional trained-model backend for the prediction studio. The browser-only experience still works without it by comparing the profile with similar rows from the bundled fictional IBM dataset; that fallback is not a validated model.
 
-## What it does
+## Model and API
 
-- `train.py` trains a scikit-learn pipeline on the **eight contract features**
-  (`JobRole`, `OverTime`, `MonthlyIncome`, `JobSatisfaction`, `WorkLifeBalance`,
-  `YearsAtCompany`, `YearsSinceLastPromotion`, `DistanceFromHome`) using the
-  bundled sample `public/data/ibm-hr.csv`. It compares logistic regression,
-  random forest and XGBoost with 5-fold stratified CV, picks the best by CV
-  ROC-AUC, evaluates once on a held-out 20% split, and writes:
-  - `artifacts/model.joblib` — fitted pipeline + metadata (gitignored)
-  - `artifacts/metrics.json` — CV + held-out metrics, confusion matrix
-  - `artifacts/model_card.json` — version, data provenance (SHA-256), metrics, limits
-- `app.py` is a FastAPI service:
+`train.py` trains a scikit-learn pipeline on 15 available features in `public/data/ibm-hr.csv`: job role, department, business travel, marital status, overtime, age, job level, monthly income, job satisfaction, work–life balance, company tenure, years since promotion, years with current manager, number of previous companies, and commute distance. It compares logistic regression, random forest, and XGBoost with 5-fold stratified CV, selects using CV ROC-AUC, evaluates on a held-out 20% split, and writes model, metrics, and model card artifacts (gitignored).
 
-| Endpoint | Contract | Response |
-| --- | --- | --- |
-| `GET /health` | liveness | `{"status": "ok", "model_loaded": true}` |
-| `GET /model` | model metadata | version, type, features, explainer, model card |
-| `GET /evaluation` | held-out metrics | CV table + test metrics + confusion matrix |
-| `POST /predict` | the 8-feature profile | `{"probability", "model_version", "explanation"}` |
+`app.py` exposes:
 
-`POST /predict` validates exactly like the frontend (`src/data.js` ranges:
-integer `MonthlyIncome` 100–100000, `JobSatisfaction`/`WorkLifeBalance` 1–4,
-`YearsAtCompany`/`YearsSinceLastPromotion` 0–40 with promotion ≤ tenure,
-`DistanceFromHome` 1–100, `JobRole` one of the nine roles, `OverTime` Yes/No).
-Invalid input returns **422** and the frontend keeps the user's form values.
-`explanation` contains real **SHAP** contributions (method, output scale,
-base value, per-feature contributions) — not generic feature importances.
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /health` | Service and model liveness |
+| `GET /model` | Model metadata and model card |
+| `GET /evaluation` | CV and held-out metrics |
+| `POST /predict` | Validated 15-feature profile → probability and SHAP explanation |
+
+The request contract is documented in [`../docs/backend-contract.md`](../docs/backend-contract.md). Income is monthly USD and commute distance is miles; the UI converts INR and km inputs to these model units. All fields are range-checked and the tenure fields cannot exceed company tenure.
 
 ## Run
-
-From the repository root:
 
 ```sh
 python3 -m venv .venv
 .venv/bin/pip install -r backend/requirements.txt
-
-.venv/bin/python backend/train.py                 # writes backend/artifacts/
-.venv/bin/python -m pytest backend/test_api.py -q # contract tests
-
+.venv/bin/python backend/train.py
+.venv/bin/python -m pytest backend/test_api.py -q
 .venv/bin/uvicorn backend.app:app --host 0.0.0.0 --port 8000
 ```
 
-Then in another shell:
+Configure the frontend with `VITE_API_BASE_URL=http://localhost:8000` and rebuild. In production, restrict CORS to the frontend origin, add authentication and access controls, and do not expose employee-level predictions publicly.
 
-```sh
-VITE_API_BASE_URL=http://localhost:8000 npm run dev   # frontend now calls /predict
-```
+## Limits
 
-Quick smoke test:
-
-```sh
-curl -s localhost:8000/health
-curl -s -X POST localhost:8000/predict -H 'Content-Type: application/json' -d '{
-  "JobRole": "Sales Executive", "OverTime": "Yes", "MonthlyIncome": 4000,
-  "JobSatisfaction": 2, "WorkLifeBalance": 2, "YearsAtCompany": 3,
-  "YearsSinceLastPromotion": 1, "DistanceFromHome": 24 }'
-```
-
-## Model card / honesty notes
-
-- Trained on the **synthetic** IBM HR sample (fictional data created by IBM
-  data scientists) because it is the only dataset here with all eight contract
-  features. Expected held-out ROC-AUC is around **0.82–0.84**; see
-  `artifacts/model_card.json` for the exact run.
-- `probability` means P(Attrition=Yes) for a similar profile — **not** a
-  time-to-departure and **not** an assessment of a real person.
-- The 0.5 decision threshold and the frontend's 30/60 risk bands are demo
-  conventions, not validated operational cutoffs.
-- CORS is wide open for the demo; restrict `allow_origins` to your real
-  frontend origin in production. There is no authentication — do not expose
-  employee-level predictions publicly.
-- Before any operational use: retrain on real consented HR data, calibrate
-  probabilities, run fairness audits across protected groups, and review local
-  employment/privacy law. This is an educational demonstration, **not an
-  employment decision system**.
-
-## Files
-
-```
-backend/
-  model.py          contract features, ranges, pipeline builder, SHAP helper
-  train.py          CV model selection + training + artifacts (CLI)
-  app.py            FastAPI app factory (uvicorn backend.app:app)
-  test_api.py       pytest contract tests (uses a temp artifacts dir)
-  requirements.txt  pip requirements
-  artifacts/        generated by train.py (gitignored): model.joblib, metrics.json, model_card.json
-```
+- The IBM HR dataset is a fictional synthetic sample, not IBM employee records. Model performance on it does not establish validity on real workers or another organization.
+- A probability is not a time-to-departure, destiny, or employment decision. Do not use for hiring, firing, promotion, or other employment decisions.
+- Before any operational use, retrain with properly consented and representative data, assess calibration, audit fairness, review privacy and employment law, and provide human oversight.
+- The UI's what-if illustration is separate from this model; it does not call this API and cannot establish causal effects.

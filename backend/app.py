@@ -4,7 +4,7 @@ Endpoints
   GET  /health       liveness
   GET  /model        model card / metadata (contract: "/model metadata")
   GET  /evaluation   held-out metrics + confusion matrix (contract: "/evaluation")
-  POST /predict      {8 contract features} -> {probability, model_version, explanation}
+  POST /predict      {15 profile features} -> {probability, model_version, explanation}
 
 Run (from the repository root, after `python backend/train.py`):
 
@@ -28,26 +28,36 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, model_validator
 
-from model import FEATURES, RANGES, ROLES, explainer_kind, shap_contributions, to_frame
+from model import (BUSINESS_TRAVEL, DEPARTMENTS, FEATURES, MARITAL_STATUSES, RANGES, ROLES,
+                   explainer_kind, shap_contributions, to_frame)
 
 ARTIFACTS = BACKEND / "artifacts"
 
 
 class Profile(BaseModel):
-    """Exactly the eight features of the frontend form, same validation ranges."""
-    JobRole: Literal[tuple(ROLES)] = Field(..., description="one of the nine IBM job roles")
+    """The 15 modeled IBM sample features, validated to match the browser form."""
+    JobRole: Literal[tuple(ROLES)]
+    Department: Literal[tuple(DEPARTMENTS)]
+    BusinessTravel: Literal[tuple(BUSINESS_TRAVEL)]
+    MaritalStatus: Literal[tuple(MARITAL_STATUSES)]
     OverTime: Literal["Yes", "No"]
+    Age: int = Field(..., ge=18, le=60)
+    JobLevel: int = Field(..., ge=1, le=5)
     MonthlyIncome: int = Field(..., ge=RANGES["MonthlyIncome"][0], le=RANGES["MonthlyIncome"][1])
     JobSatisfaction: int = Field(..., ge=1, le=4)
     WorkLifeBalance: int = Field(..., ge=1, le=4)
     YearsAtCompany: int = Field(..., ge=0, le=40)
     YearsSinceLastPromotion: int = Field(..., ge=0, le=40)
+    YearsWithCurrManager: int = Field(..., ge=0, le=40)
+    NumCompaniesWorked: int = Field(..., ge=0, le=9)
     DistanceFromHome: int = Field(..., ge=1, le=100)
 
     @model_validator(mode="after")
-    def promotion_not_exceeding_tenure(self):
+    def tenure_consistency(self):
         if self.YearsSinceLastPromotion > self.YearsAtCompany:
             raise ValueError("YearsSinceLastPromotion cannot exceed YearsAtCompany")
+        if self.YearsWithCurrManager > self.YearsAtCompany:
+            raise ValueError("YearsWithCurrManager cannot exceed YearsAtCompany")
         return self
 
 
