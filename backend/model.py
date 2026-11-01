@@ -1,20 +1,9 @@
 """Model definition shared by train.py and app.py.
 
-The prediction contract (docs/backend-contract.md) uses exactly these eight
-features, with the same value ranges the frontend validates in src/data.js:
-
-  JobRole                 one of ROLES
-  OverTime                "Yes" | "No"
-  MonthlyIncome           int 100..100000
-  JobSatisfaction         int 1..4
-  WorkLifeBalance         int 1..4
-  YearsAtCompany          int 0..40
-  YearsSinceLastPromotion int 0..40 and <= YearsAtCompany
-  DistanceFromHome        int 1..100
+The prediction contract uses 15 signals available in the fictional IBM HR sample.
+Income is monthly USD; distance from home is miles.
 """
 from __future__ import annotations
-
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -31,28 +20,31 @@ ROLES = [
     "Manufacturing Director", "Healthcare Representative", "Manager",
     "Sales Representative", "Research Director", "Human Resources",
 ]
+DEPARTMENTS = ["Human Resources", "Research & Development", "Sales"]
+BUSINESS_TRAVEL = ["Non-Travel", "Travel_Rarely", "Travel_Frequently"]
+MARITAL_STATUSES = ["Divorced", "Married", "Single"]
 
-CATEGORICAL_FEATURES = ["JobRole", "OverTime"]
+CATEGORICAL_FEATURES = ["JobRole", "Department", "BusinessTravel", "MaritalStatus", "OverTime"]
 NUMERIC_FEATURES = [
-    "MonthlyIncome", "JobSatisfaction", "WorkLifeBalance",
-    "YearsAtCompany", "YearsSinceLastPromotion", "DistanceFromHome",
+    "Age", "JobLevel", "MonthlyIncome", "JobSatisfaction", "WorkLifeBalance",
+    "YearsAtCompany", "YearsSinceLastPromotion", "YearsWithCurrManager",
+    "NumCompaniesWorked", "DistanceFromHome",
 ]
-FEATURES = CATEGORICAL_FEATURES + NUMERIC_FEATURES  # contract order
+FEATURES = CATEGORICAL_FEATURES[:4] + ["OverTime"] + NUMERIC_FEATURES
 
 RANGES = {
-    "MonthlyIncome": (100, 100000),
-    "JobSatisfaction": (1, 4),
-    "WorkLifeBalance": (1, 4),
-    "YearsAtCompany": (0, 40),
-    "YearsSinceLastPromotion": (0, 40),
+    "Age": (18, 60), "JobLevel": (1, 5), "MonthlyIncome": (100, 100000),
+    "JobSatisfaction": (1, 4), "WorkLifeBalance": (1, 4),
+    "YearsAtCompany": (0, 40), "YearsSinceLastPromotion": (0, 40),
+    "YearsWithCurrManager": (0, 40), "NumCompaniesWorked": (0, 9),
     "DistanceFromHome": (1, 100),
 }
 
 SEED = 20261101
-MODEL_VERSION = "1.0.0+20261101"
+MODEL_VERSION = "2.0.0+20261101"
 
 
-def load_contract_frame(csv_path: Path) -> pd.DataFrame:
+def load_contract_frame(csv_path):
     df = pd.read_csv(csv_path)
     missing = [c for c in FEATURES + ["Attrition"] if c not in df.columns]
     if missing:
@@ -104,7 +96,7 @@ def shap_contributions(clf, prep: ColumnTransformer, row: pd.DataFrame, backgrou
         exp = shap.TreeExplainer(clf)
     else:
         if background is None:
-            background = Xt  # single-row background (degenerate but functional)
+            background = Xt
         exp = shap.LinearExplainer(clf, np.asarray(background))
     sv = exp.shap_values(Xt)
     if isinstance(sv, list):
@@ -116,17 +108,15 @@ def shap_contributions(clf, prep: ColumnTransformer, row: pd.DataFrame, backgrou
     def _native(v):
         return v.item() if isinstance(v, np.generic) else v
     raw = {f: _native(v) for f, v in zip(FEATURES, row.iloc[0].tolist())}
-    # map expanded one-hot names back to their source feature for display
     contribs = []
     for i in order:
         name = str(names[i])
-        base = name.split("__", 1)[1] if "__" in name else name
-        src = base.split("_")[0]
+        src = name.split("__", 1)[1] if "__" in name else name
         for f in FEATURES:
             if name.startswith(f"num__{f}") or name.startswith(f"cat__{f}_"):
                 src = f
                 break
-        contribs.append({"feature": src, "detail": name, "value": raw.get(src, None), "contribution": float(sv[i])})
+        contribs.append({"feature": src, "detail": name, "value": raw.get(src), "contribution": float(sv[i])})
     base_value = float(np.asarray(exp.expected_value if not isinstance(exp.expected_value, list)
                                   else exp.expected_value[1]).reshape(-1)[0]) if hasattr(exp, "expected_value") else None
     return {"method": "shap", "output": "log-odds", "base_value": base_value, "contributions": contribs}

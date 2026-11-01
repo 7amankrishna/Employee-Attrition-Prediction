@@ -43,13 +43,13 @@ The included CSV contains 1,470 fictional IBM HR sample records, including 237 `
 - [CSV mirror used](https://github.com/IamVasil/IBM-HR-Analytics-Employee-Attrition-Performance/blob/main/WA_Fn-UseC_-HR-Employee-Attrition.csv)
 - Local file: `public/data/ibm-hr.csv`
 
-**There is no trained model in this frontend.** Prediction and what-if values use a deliberately simple, untrained demonstration formula and are labeled illustrative. This formula does not learn from the dataset, is not calibrated, and must not be interpreted as an employee assessment. Job role is collected for the future API but does not affect this formula. No SHAP values, accuracy, precision, recall, F1, ROC-AUC, or confusion-matrix counts are invented.
+The prediction studio offers **IBM sample profiles** and **manual real-profile entry**. In frontend-only mode, it compares the entered 15-feature profile with its nearest records in the bundled, fictional IBM sample and reports a sample-based similarity estimate; it is not a trained, validated or calibrated model and must not be interpreted as an employee assessment. Monthly income and commute distance are normalized to the IBM sample's USD/month and miles (INR conversion is a fixed demo rate, not live FX). For a trained model and real SHAP explanations, configure the optional Python backend. The separate what-if explorer remains an explicitly untrained UI illustration. No validation metrics are fabricated.
 
 ## Python backend handoff
 
 See [docs/backend-contract.md](docs/backend-contract.md). `src/api.js` already isolates the prediction transport. Set `VITE_API_BASE_URL` only when your Python service implements the contract, then rebuild. This environment value is public configuration, never a place for secrets.
 
-A complete **reference implementation** of that contract now lives in [`backend/`](backend/README.md): `train.py` trains and evaluates a model on the eight contract features (5-fold CV model selection, held-out metrics, model card), and `app.py` is a FastAPI service exposing `POST /predict` (with real SHAP explanations), `GET /model` and `GET /evaluation`, plus contract tests (`pytest backend/test_api.py`):
+A complete **reference implementation** lives in [`backend/`](backend/README.md): `train.py` trains and evaluates a model on the same 15 IBM profile features used by the form (5-fold CV model selection, held-out metrics, model card), and `app.py` exposes `POST /predict` (with SHAP explanations), `GET /model` and `GET /evaluation`, plus contract tests (`pytest backend/test_api.py`):
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
@@ -76,8 +76,8 @@ Beyond the bundled IBM sample, three **real-world datasets** were located on Git
 src/
   main.jsx       Five pages, shared UI, charts and app state
   styles.css     Design tokens, responsive layouts, reduced-motion support
-  data.js        CSV parsing, aggregations, validation, labeled demo formula
-  api.js         Demo / future Python prediction API adapter
+  data.js        CSV parsing, profile validation, and IBM-sample similarity estimate
+  api.js         Local sample estimator / optional Python prediction API adapter
 public/data/     Bundled sample CSV
 tests/         Dataset and profile validation checks
 docs/          Python API handoff and validation notes
